@@ -166,6 +166,7 @@ def mat2_identity(mat2_out)
   mat2_out.x.y = 0.0
   mat2_out.y.x = 0.0
   mat2_out.y.y = 1.0
+  mat2_out
 end
 
 def mat2_transpose(mat2_out, mat2_a)
@@ -173,4 +174,5 @@ def mat2_transpose(mat2_out, mat2_a)
   mat2_out.x.y = mat2_a.y.x
   mat2_out.y.x = mat2_a.x.y
   mat2_out.y.y = mat2_a.y.y
+  mat2_out
 end
