@@ -97,7 +97,7 @@ def vec2_rotate_by(vec2_out, vec2_a, scalar_degrees, vec2_center)
   vec2_out
 end
 
-def vec2_distance(vec2_out, vec2_a, vec2_b)
+def vec2_distance(vec2_a, vec2_b)
   Math.sqrt(vec2_a.x * vec2_a.x + vec2_a.y * vec2_a.y) - Math.sqrt(vec2_b.x * vec2_b.x + vec2_b.y * vec2_b.y)
 end
 
