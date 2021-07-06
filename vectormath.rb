@@ -3,10 +3,6 @@ PI_OVER_180 = Math::PI / 180.0
 # Vector2 ##############################################################################################################
 Vec2 = Struct.new(:x, :y)
 
-def new_vec2
-  Vec2.new(0.0, 0.0)
-end
-
 def vec2_add_scalar(vec2_out, vec2_a, scalar)
   vec2_out.x = vec2_a + scalar
   vec2_out.y = vec2_a + scalar
@@ -118,10 +114,6 @@ end
 
 # Matrix 2x2 ###########################################################################################################
 Mat2 = Struct.new(:x, :y)
-
-def new_mat2
-  Mat2.new(Vec2.new(0.0, 0.0), Vec2.new(0.0, 0.0))
-end
 
 def mat2_add_mat2(mat2_out, mat2_a, mat2_b)
   mat2_out.x = mat2_a.x + mat2_b.x
