@@ -5,7 +5,7 @@ Vec2 = Struct.new(:x, :y)
 
 def vec2_add_scalar(vec2_out, vec2_a, scalar)
   vec2_out.x = vec2_a.x + scalar
-  vec2_out.y = vec2_a.x + scalar
+  vec2_out.y = vec2_a.y + scalar
   vec2_out
 end
 
@@ -17,7 +17,7 @@ end
 
 def vec2_sub_scalar(vec2_out, vec2_a, scalar)
   vec2_out.x = vec2_a.x - scalar
-  vec2_out.y = vec2_a.x - scalar
+  vec2_out.y = vec2_a.y - scalar
   vec2_out
 end
 
