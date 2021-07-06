@@ -4,8 +4,8 @@ PI_OVER_180 = Math::PI / 180.0
 Vec2 = Struct.new(:x, :y)
 
 def vec2_add_scalar(vec2_out, vec2_a, scalar)
-  vec2_out.x = vec2_a + scalar
-  vec2_out.y = vec2_a + scalar
+  vec2_out.x = vec2_a.x + scalar
+  vec2_out.y = vec2_a.x + scalar
   vec2_out
 end
 
@@ -16,8 +16,8 @@ def vec2_add_vec2(vec2_out, vec2_a, vec2_b)
 end
 
 def vec2_sub_scalar(vec2_out, vec2_a, scalar)
-  vec2_out.x = vec2_a - scalar
-  vec2_out.y = vec2_a - scalar
+  vec2_out.x = vec2_a.x - scalar
+  vec2_out.y = vec2_a.x - scalar
   vec2_out
 end
 
