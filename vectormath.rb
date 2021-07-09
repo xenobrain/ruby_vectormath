@@ -1,6 +1,5 @@
 PI_OVER_180 = Math::PI / 180.0
 
-# Vector2 ##############################################################################################################
 class Vec2
   attr_accessor(:x, :y)
 
@@ -9,19 +8,24 @@ class Vec2
     @y = y
   end
 
+  def add(vec2_rhs)
+    Vec2.new(@x + vec2_rhs.x,
+             @y + vec2_rhs.y)
+  end
+
   def add!(vec2_rhs)
     @x += vec2_rhs.x
     @y += vec2_rhs.y
   end
 
-  def add2_self!(vec2_lhs, vec2_rhs)
+  def add_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x + vec2_rhs.x
     @y = vec2_rhs.y + vec2_rhs.y
   end
 
-  def add2!(vec2_lhs, vec2_rhs)
-    @x = vec2_lhs.x + vec2_rhs.x
-    @y = vec2_rhs.y + vec2_rhs.y
+  def sub(vec2_rhs)
+    Vec2.new(@x - vec2_rhs.x,
+             @y - vec2_rhs.y)
   end
 
   def sub!(vec2_rhs)
@@ -29,9 +33,14 @@ class Vec2
     @y -= vec2_rhs.y
   end
 
-  def sub2!(vec2_lhs, vec2_rhs)
+  def sub_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x - vec2_rhs.x
     @y = vec2_lhs.y - vec2_lhs.y
+  end
+
+  def mul(scalar_rhs)
+    Vec2.new(@x * scalar_rhs,
+             @y * scalar_rhs)
   end
 
   def mul!(scalar_rhs)
@@ -39,19 +48,29 @@ class Vec2
     @y *= scalar_rhs
   end
 
-  def mul2!(vec2_lhs, scalar_rhs)
+  def mul_from!(vec2_lhs, scalar_rhs)
     @x = vec2_lhs.x * scalar_rhs
     @y = vec2_lhs.y * scalar_rhs
   end
 
-  def mul_add!(vec2_rhs, scalar_mul)
-    @x += vec2_rhs * scalar_mul
-    @y += vec2_rhs * scalar_mul
+  def mul_add(vec2_rhs, scalar_mul)
+    Vec2.new(@x + vec2_rhs.x * scalar_mul,
+             @y + vec2_rhs.y * scalar_mul)
   end
 
-  def mul_add2!(vec2_lhs, vec2_rhs, scalar_rhs)
+  def mul_add!(vec2_rhs, scalar_mul)
+    @x += vec2_rhs.x * scalar_mul
+    @y += vec2_rhs.x * scalar_mul
+  end
+
+  def mul_add_from!(vec2_lhs, vec2_rhs, scalar_rhs)
     @x = vec2_lhs.x + vec2_rhs.x * scalar_rhs
     @y = vec2_lhs.y + vec2_rhs.y * scalar_rhs
+  end
+
+  def element_mul(vec2_rhs)
+    Vec2.new(@x * vec2_rhs.x,
+             @y * vec2_rhs.y)
   end
 
   def element_mul!(vec2_rhs)
@@ -59,9 +78,14 @@ class Vec2
     @y *= vec2_rhs.x
   end
 
-  def element_mul2!(vec2_lhs, vec2_rhs)
+  def element_mul_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x * vec2_rhs.x
     @y = vec2_lhs.y * vec2_rhs.y
+  end
+
+  def element_div(vec2_rhs)
+    Vec2.new(@x / vec2_rhs.x,
+             @y / vec2_rhs.y)
   end
 
   def element_div!(vec2_rhs)
@@ -69,7 +93,7 @@ class Vec2
     @y /= vec2_rhs.y
   end
 
-  def element_div2!(vec2_lhs, vec2_rhs)
+  def element_div_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x / vec2_rhs.x
     @y = vec2_lhs.y / vec2_rhs.y
   end
@@ -82,14 +106,24 @@ class Vec2
     @y * vec2_rhs.x - @y * vec2_rhs.y
   end
 
+  def min(vec2_rhs)
+    Vec2.new(@x < vec2_rhs.x ? @x : vec2_rhs.x,
+             @y < vec2_rhs.y ? @y : vec2_rhs.y)
+  end
+
   def min!(vec2_rhs)
     @x = @x < vec2_rhs.x ? @x : vec2_rhs.x
     @y = @y < vec2_rhs.y ? @y : vec2_rhs.y
   end
 
-  def min2!(vec2_lhs, vec2_rhs)
+  def min_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x < vec2_rhs.x ? vec2_lhs.x : vec2_rhs.x
     @y = vec2_lhs.y < vec2_rhs.y ? vec2_lhs.y : vec2_rhs.y
+  end
+
+  def max(vec2_rhs)
+    Vec2.new(@x > vec2_rhs.x ? @x : vec2_rhs.x,
+             @y > vec2_rhs.y ? @y : vec2_rhs.y)
   end
 
   def max!(vec2_rhs)
@@ -97,9 +131,14 @@ class Vec2
     @y = @y > vec2_rhs.y ? @y : vec2_rhs.y
   end
 
-  def max2!(vec2_lhs, vec2_rhs)
+  def max_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x > vec2_rhs.x ? vec2_lhs.x : vec2_rhs.x
     @y = vec2_lhs.y > vec2_rhs.y ? vec2_lhs.y : vec2_rhs.y
+  end
+
+  def abs
+    Vec2.new(@x.abs,
+             @y.abs)
   end
 
   def abs!
@@ -107,32 +146,85 @@ class Vec2
     @y = @y.abs
   end
 
+  def abs_from!(other)
+    @x = other.x.abs
+    @y = other.y.abs
+  end
+
+  def invert
+    Vec2.new(-@x,
+             -@y)
+  end
+
+  def invert!
+    @x = -@x
+    @y = -@y
+  end
+
+  def invert_from!(other)
+    @x = -other.x
+    @y = -other.y
+  end
+
+  def eq?(other)
+    @x == other.x && @y == other.y
+  end
+
+  def lerp(vec2_rhs, scalar_t)
+    Vec2.new(@x + scalar_t * (vec2_rhs.x - @x),
+             @y + scalar_t * (vec2_rhs.y - @y))
+  end
+
   def lerp!(vec2_rhs, scalar_t)
     @x += scalar_t * (vec2_rhs.x - @x)
     @y += scalar_t * (vec2_rhs.y - @y)
   end
 
-  def lerp2!(vec2_lhs, vec2_rhs, scalar_t)
+  def lerp_from!(vec2_lhs, vec2_rhs, scalar_t)
     @x = vec2_lhs.x + scalar_t * (vec2_rhs.x - vec2_lhs.x)
     @y = vec2_lhs.y + scalar_t * (vec2_rhs.y - vec2_lhs.y)
-  end
-
-  def distance(vec2_rhs)
-    Math.sqrt(@x * @x + @y * @y) - Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
-  end
-
-  def length
-    Math.sqrt(@x * @x + @y * @y)
   end
 
   def length_sq
     @x * @x + @y * @y
   end
 
+  def length
+    Math.sqrt(@x * @x + @y * @y)
+  end
+
+  def distance(vec2_rhs)
+    Math.sqrt(@x * @x + @y * @y) - Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
+  end
+
+  def normalize
+    inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y)
+    Vec2.new(@x * inverse_length,
+             @y * inverse_length)
+  end
+
   def normalize!
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y)
     @x *= inverse_length
     @y *= inverse_length
+  end
+
+  def normalize_from!(vec2_other)
+    inverse_length = 1.0 / Math.sqrt(vec2_other.x * vec2_other.x + vec2_other.y * vec2_other.y)
+    @x = vec2_other.x * inverse_length
+    @y = vec2_other.y * inverse_length
+  end
+
+  def rotate_by(vec2_center, scalar_degrees)
+    radians = scalar_degrees * PI_OVER_180
+    cos = Math.cos(radians)
+    sin = Math.sin(radians)
+
+    dx = @x - vec2_center.x
+    dy = @y - vec2_center.y
+
+    Vec2.new((dx * cos - dy * sin) + vec2_center.x,
+             (dx * sin + dy * cos) + vec2_center.y)
   end
 
   def rotate_by!(vec2_center, scalar_degrees)
@@ -145,65 +237,68 @@ class Vec2
     @x = (@x * cos - @y * sin) + vec2_center.x
     @y = (@x * sin + @y * cos) + vec2_center.y
   end
+
+  def rotate_by_from!(vec2_other, vec2_center, scalar_degrees)
+    radians = scalar_degrees * PI_OVER_180
+    cos = Math.cos(radians)
+    sin = Math.sin(radians)
+
+    @x = vec2_other.x - vec2_center.x
+    @y = vec2_other.x - vec2_center.y
+    @x = (vec2_other.x * cos - vec2_other.y * sin) + vec2_center.x
+    @y = (vec2_other.x * sin + vec2_other.y * cos) + vec2_center.y
+  end
 end
 
-# Matrix 2x2 ###########################################################################################################
-Mat2 = Struct.new(:m00, :m01, :m10, :m11)
+class Mat2
+  attr_accessor(:m11, :m12, :m21, :m22)
 
-def mat2_add_mat2(mat2_out, mat2_a, mat2_b)
-  mat2_out.x = mat2_a.x + mat2_b.x
-  mat2_out.y = mat2_a.y + mat2_b.y
-  mat2_out
-end
+  def initialize(m11 = 0.0, m12 = 0.0, m21 = 0.0, m22 = 0.0)
+    @m11 = m11
+    @m12 = m12
+    @m21 = m21
+    @m22 = m22
+  end
 
-def mat2_mul_scalar(mat2_out, mat2_a, scalar)
-  mat2_out.x = mat2_a.x * scalar
-  mat2_out.y = mat2_a.y * scalar
-  mat2_out
-end
+  def add!(mat2_rhs)
 
-def mat2_mul_mat2(mat2_out, mat2_a, mat2_b)
-  mat2_out.x.x = mat2_a.x.x * mat2_b.x.x + mat2_a.x.y * mat2_b.y.x
-  mat2_out.x.y = mat2_a.x.x * mat2_b.x.y + mat2_a.x.y * mat2_b.y.y
-  mat2_out.y.x = mat2_a.y.x * mat2_b.x.x + mat2_a.y.y * mat2_b.y.x
-  mat2_out.y.y = mat2_a.y.x * mat2_b.x.y + mat2_a.y.y * mat2_b.y.y
-  mat2_out
-end
+  end
 
-def mat2_eq(mat2_a, mat2_b)
-  mat2_a.x.x == mat2_b.x.x && mat2_a.x.y == mat2_b.x.y && mat2_a.y.x == mat2_b.y.x && mat2_a.y.y == mat2_b.y.y
-end
+  def add2!(mat2_lhs, mat2_rhs)
 
-def mat2_zero(mat2_out)
-  mat2_out
-end
+  end
 
-def mat2_inverse(mat2_out, mat2_a)
-  a = mat2_a.x.x
-  b = mat2_a.y.x
-  c = mat2_a.x.y
-  d = mat2_a.y.y
-  determinant = (1.0 / a * d - b * c)
+  def mul!
 
-  mat2_out.x.x = d *  determinant
-  mat2_out.x.y = c * -determinant
-  mat2_out.y.x = b * -determinant
-  mat2_out.y.y = a *  determinant
-  mat2_out
-end
+  end
 
-def mat2_identity(mat2_out)
-  mat2_out.x.x = 1.0
-  mat2_out.x.y = 0.0
-  mat2_out.y.x = 0.0
-  mat2_out.y.y = 1.0
-  mat2_out
-end
+  def eql?(other)
+    @m11 == other.m11 && @m12 == other.m12 && @m21 = other.m21 && @m22 = other.m22
+  end
 
-def mat2_transpose(mat2_out, mat2_a)
-  mat2_out.x.x = mat2_a.x.x
-  mat2_out.x.y = mat2_a.y.x
-  mat2_out.y.x = mat2_a.x.y
-  mat2_out.y.y = mat2_a.y.y
-  mat2_out
+  def inverse!
+    determinant = (1.0 / @m11 * @m22 - @m21 * @m12)
+
+    @m11 = @m22 * determinant
+    @m22 = @m11 * determinant
+    @m12 *= -determinant
+    @m21 *= -determinant
+  end
+
+  def identity!
+    @m11 = 1.0
+    @m12 = 0.0
+    @m21 = 0.0
+    @m22 = 1.0
+  end
+
+  def transpose!
+    m12 = @m12
+    @m12 = @m21
+    @m21 = m12
+  end
+
+  def determinant
+    1.0 / @m11 * @m22 - @m21 * @m22
+  end
 end
