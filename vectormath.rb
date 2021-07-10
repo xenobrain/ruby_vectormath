@@ -58,7 +58,7 @@ class Vec2
 
   def mul_add!(vec2_rhs, scalar_mul)
     @x += vec2_rhs.x * scalar_mul
-    @y += vec2_rhs.x * scalar_mul
+    @y += vec2_rhs.y * scalar_mul
   end
 
   def mul_add_from!(vec2_lhs, vec2_rhs, scalar_rhs)
@@ -72,7 +72,7 @@ class Vec2
 
   def element_mul!(vec2_rhs)
     @x *= vec2_rhs.x
-    @y *= vec2_rhs.x
+    @y *= vec2_rhs.y
   end
 
   def element_mul_from!(vec2_lhs, vec2_rhs)
@@ -192,6 +192,10 @@ class Vec2
 
   alias magnitude length
 
+  def distance_sq(vec2_rhs)
+    (@x * @x + @y * @y) - (vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
+  end
+
   def distance(vec2_rhs)
     Math.sqrt(@x * @x + @y * @y) - Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
   end
@@ -239,55 +243,662 @@ class Vec2
   end
 end
 
-class Mat2
-  attr_accessor(:m11, :m12, :m21, :m22)
+class Vec3
+  attr_accessor(:x, :y, :z, :w)
 
-  def initialize(m11 = 0.0, m12 = 0.0, m21 = 0.0, m22 = 0.0)
-    @m11 = m11
-    @m12 = m12
-    @m21 = m21
-    @m22 = m22
+  def initialize(x = 0.0, y = 0.0, z = 0.0)
+    @x = x
+    @y = y
+    @z = z
   end
+
+  def add!(vec3_rhs)
+    @x += vec3_rhs.x
+    @y += vec3_rhs.y
+    @z += vec3_rhs.z
+  end
+
+  def add_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x + vec3_rhs.x
+    @y = vec3_rhs.y + vec3_rhs.y
+    @z = vec3_rhs.z + vec3_rhs.z
+  end
+
+  def add(vec3_rhs)
+    dup.add!(vec3_rhs)
+  end
+
+  alias + add
+
+  def sub!(vec3_rhs)
+    @x -= vec3_rhs.x
+    @y -= vec3_rhs.y
+    @z -= vec3_rhs.z
+  end
+
+  def sub_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x - vec3_rhs.x
+    @y = vec3_lhs.y - vec3_lhs.y
+    @z = vec3_lhs.z - vec3_lhs.z
+  end
+
+  def sub(vec3_rhs)
+    dup.sub!(vec3_rhs)
+  end
+
+  alias - sub
+
+  def mul!(scalar_rhs)
+    @x *= scalar_rhs
+    @y *= scalar_rhs
+    @z *= scalar_rhs
+  end
+
+  def mul_from!(vec3_lhs, scalar_rhs)
+    @x = vec3_lhs.x * scalar_rhs
+    @y = vec3_lhs.y * scalar_rhs
+    @z = vec3_lhs.z * scalar_rhs
+  end
+
+  def mul(scalar_rhs)
+    dup.mul!(scalar_rhs)
+  end
+
+  alias * mul
+
+  def mul_add!(vec3_rhs, scalar_mul)
+    @x += vec3_rhs.x * scalar_mul
+    @y += vec3_rhs.y * scalar_mul
+    @z += vec3_rhs.z * scalar_mul
+  end
+
+  def mul_add_from!(vec3_lhs, vec3_rhs, scalar_rhs)
+    @x = vec3_lhs.x + vec3_rhs.x * scalar_rhs
+    @y = vec3_lhs.y + vec3_rhs.y * scalar_rhs
+    @z = vec3_lhs.z + vec3_rhs.z * scalar_rhs
+  end
+
+  def mul_add(vec3_rhs, scalar_mul)
+    dup.mul_add!(vec3_rhs, scalar_mul)
+  end
+
+  def element_mul!(vec3_rhs)
+    @x *= vec3_rhs.x
+    @y *= vec3_rhs.y
+    @z *= vec3_rhs.z
+  end
+
+  def element_mul_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x * vec3_rhs.x
+    @y = vec3_lhs.y * vec3_rhs.y
+    @z = vec3_lhs.z * vec3_rhs.z
+  end
+
+  def element_mul(vec3_rhs)
+    dup.element_mul!(vec3_rhs)
+  end
+
+  def element_div!(vec3_rhs)
+    @x /= vec3_rhs.x
+    @y /= vec3_rhs.y
+    @z /= vec3_rhs.z
+  end
+
+  def element_div_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x / vec3_rhs.x
+    @y = vec3_lhs.y / vec3_rhs.y
+    @z = vec3_lhs.z / vec3_rhs.z
+  end
+
+  def element_div(vec3_rhs)
+    dup.element_div!(vec3_rhs)
+  end
+
+  def dot(vec3_rhs)
+    @x * vec3_rhs.x + @y * vec3_rhs.y + @z * vec3_rhs.z
+  end
+
+  def cross!(vec3_rhs)
+    x = @y * vec3_rhs.z - @z * vec3_rhs.y
+    y = @z * vec3_rhs.x - @x * vec3_rhs.z
+    z = @x * vec3_rhs.y - @y * vec3_rhs.x
+
+    @x = x
+    @y = y
+    @z = z
+  end
+
+  def cross_with!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.y * vec3_rhs.z - vec3_lhs.z * vec3_rhs.y
+    @y = vec3_lhs.z * vec3_rhs.x - vec3_lhs.x * vec3_rhs.z
+    @z = vec3_lhs.x * vec3_rhs.y - vec3_lhs.y * vec3_rhs.x
+  end
+
+  def cross(vec3_rhs)
+    dup.cross!(vec3_rhs)
+  end
+
+  def min!(vec3_rhs)
+    @x = @x < vec3_rhs.x ? @x : vec3_rhs.x
+    @y = @y < vec3_rhs.y ? @y : vec3_rhs.y
+    @z = @z < vec3_rhs.z ? @z : vec3_rhs.z
+  end
+
+  def min_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x < vec3_rhs.x ? vec3_lhs.x : vec3_rhs.x
+    @y = vec3_lhs.y < vec3_rhs.y ? vec3_lhs.y : vec3_rhs.y
+    @z = vec3_lhs.z < vec3_rhs.z ? vec3_lhs.z : vec3_rhs.z
+  end
+
+  def min(vec3_rhs)
+    dup.min!(vec3_rhs)
+  end
+
+  def max!(vec3_rhs)
+    @x = @x > vec3_rhs.x ? @x : vec3_rhs.x
+    @y = @y > vec3_rhs.y ? @y : vec3_rhs.y
+    @z = @z > vec3_rhs.z ? @z : vec3_rhs.z
+  end
+
+  def max_from!(vec3_lhs, vec3_rhs)
+    @x = vec3_lhs.x > vec3_rhs.x ? vec3_lhs.x : vec3_rhs.x
+    @y = vec3_lhs.y > vec3_rhs.y ? vec3_lhs.y : vec3_rhs.y
+    @z = vec3_lhs.z > vec3_rhs.z ? vec3_lhs.z : vec3_rhs.z
+  end
+
+  def max(vec3_rhs)
+    dup.max!(vec3_rhs)
+  end
+
+  def abs!
+    @x = @x.abs
+    @y = @y.abs
+    @z = @z.abs
+  end
+
+  def abs_from!(vec3_other)
+    @x = vec3_other.x.abs
+    @y = vec3_other.y.abs
+    @z = vec3_other.z.abs
+  end
+
+  def abs
+    dup.abs!
+  end
+
+  def invert!
+    @x = -@x
+    @y = -@y
+    @z = -@z
+  end
+
+  def invert_from!(vec3_other)
+    @x = -vec3_other.x
+    @y = -vec3_other.y
+    @z = -vec3_other.z
+  end
+
+  def invert
+    dup.invert!
+  end
+
+  def eq?(other)
+    @x == other.x && @y == other.y && @z == other.z
+  end
+
+  def lerp!(vec3_rhs, scalar_t)
+    @x += scalar_t * (vec3_rhs.x - @x)
+    @y += scalar_t * (vec3_rhs.y - @y)
+    @z += scalar_t * (vec3_rhs.z - @z)
+  end
+
+  def lerp_from!(vec3_lhs, vec3_rhs, scalar_t)
+    @x = vec3_lhs.x + scalar_t * (vec3_rhs.x - vec3_lhs.x)
+    @y = vec3_lhs.y + scalar_t * (vec3_rhs.y - vec3_lhs.y)
+    @z = vec3_lhs.z + scalar_t * (vec3_rhs.z - vec3_lhs.z)
+  end
+
+  def lerp(vec3_rhs, scalar_t)
+    dup.lerp!(vec3_rhs, scalar_t)
+  end
+
+  def length_sq
+    @x * @x + @y * @y + @z * @z
+  end
+
+  alias magnitude_sq length_sq
+
+  def length
+    Math.sqrt(@x * @x + @y * @y + @z * @z)
+  end
+
+  alias magnitude length
+
+  def distance_sq(vec3_rhs)
+    (@x * @x + @y * @y + @z * @z) - (vec3_rhs.x * vec3_rhs.x + vec3_rhs.y * vec3_rhs.y + vec3_rhs.z * vec3_rhs.z)
+  end
+
+  def distance(vec3_rhs)
+    Math.sqrt(@x * @x + @y * @y + @z * @z) - Math.sqrt(vec3_rhs.x * vec3_rhs.x + vec3_rhs.y * vec3_rhs.y + vec3_rhs.z * vec3_rhs.z)
+  end
+
+  def normalize!
+    inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z)
+    @x *= inverse_length
+    @y *= inverse_length
+    @z *= inverse_length
+  end
+
+  def normalize_from!(vec3_other)
+    inverse_length = 1.0 / Math.sqrt(vec3_other.x * vec3_other.x + vec3_other.y * vec3_other.y + vec3_other.z * vec3_other.z)
+    @x = vec3_other.x * inverse_length
+    @y = vec3_other.y * inverse_length
+    @z = vec3_other.z * inverse_length
+  end
+
+  def normalize
+    dup.normalize!
+  end
+
+  def rotatation_to_direction!(vec3_forwards)
+  end
+
+  def rotation_to_direction_from!(vec3_lhs, vec3_forwards)
+  end
+
+  def rotatation_to_direction(vec3_forwards)
+    dup.rotation_to_direction!(vec3_forwards)
+  end
+end
+
+class Vec4
+  attr_accessor(:x, :y, :z, :w)
+
+  def initialize(x = 0.0, y = 0.0, z = 0.0, w = 0.0)
+    @x = x
+    @y = y
+    @z = z
+    @w = w
+  end
+
+  def add!(vec4_rhs)
+    @x += vec4_rhs.x
+    @y += vec4_rhs.y
+    @z += vec4_rhs.z
+    @w += vec4_rhs.w
+  end
+
+  def add_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x + vec4_rhs.x
+    @y = vec4_rhs.y + vec4_rhs.y
+    @z = vec4_rhs.z + vec4_rhs.z
+    @z = vec4_rhs.w + vec4_rhs.w
+  end
+
+  def add(vec4_rhs)
+    dup.add!(vec4_rhs)
+  end
+
+  alias + add
+
+  def sub!(vec4_rhs)
+    @x -= vec4_rhs.x
+    @y -= vec4_rhs.y
+    @z -= vec4_rhs.z
+    @w -= vec4_rhs.w
+  end
+
+  def sub_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x - vec4_rhs.x
+    @y = vec4_lhs.y - vec4_lhs.y
+    @z = vec4_lhs.z - vec4_lhs.z
+    @w = vec4_lhs.w - vec4_lhs.w
+  end
+
+  def sub(vec4_rhs)
+    dup.sub!(vec4_rhs)
+  end
+
+  alias - sub
+
+  def mul!(scalar_rhs)
+    @x *= scalar_rhs
+    @y *= scalar_rhs
+    @z *= scalar_rhs
+    @w *= scalar_rhs
+  end
+
+  def mul_from!(vec4_lhs, scalar_rhs)
+    @x = vec4_lhs.x * scalar_rhs
+    @y = vec4_lhs.y * scalar_rhs
+    @z = vec4_lhs.z * scalar_rhs
+    @w = vec4_lhs.w * scalar_rhs
+  end
+
+  def mul(scalar_rhs)
+    dup.mul!(scalar_rhs)
+  end
+
+  alias * mul
+
+  def mul_add!(vec4_rhs, scalar_mul)
+    @x += vec4_rhs.x * scalar_mul
+    @y += vec4_rhs.y * scalar_mul
+    @z += vec4_rhs.z * scalar_mul
+    @w += vec4_rhs.w * scalar_mul
+  end
+
+  def mul_add_from!(vec4_lhs, vec4_rhs, scalar_rhs)
+    @x = vec4_lhs.x + vec4_rhs.x * scalar_rhs
+    @y = vec4_lhs.y + vec4_rhs.y * scalar_rhs
+    @z = vec4_lhs.z + vec4_rhs.z * scalar_rhs
+    @w = vec4_lhs.w + vec4_rhs.w * scalar_rhs
+  end
+
+  def mul_add(vec4_rhs, scalar_mul)
+    dup.mul_add!(vec4_rhs, scalar_mul)
+  end
+
+  def element_mul!(vec4_rhs)
+    @x *= vec4_rhs.x
+    @y *= vec4_rhs.y
+    @z *= vec4_rhs.z
+    @w *= vec4_rhs.w
+  end
+
+  def element_mul_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x * vec4_rhs.x
+    @y = vec4_lhs.y * vec4_rhs.y
+    @z = vec4_lhs.z * vec4_rhs.z
+    @w = vec4_lhs.w * vec4_rhs.w
+  end
+
+  def element_mul(vec4_rhs)
+    dup.element_mul!(vec4_rhs)
+  end
+
+  def element_div!(vec4_rhs)
+    @x /= vec4_rhs.x
+    @y /= vec4_rhs.y
+    @z /= vec4_rhs.z
+    @w /= vec4_rhs.w
+  end
+
+  def element_div_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x / vec4_rhs.x
+    @y = vec4_lhs.y / vec4_rhs.y
+    @z = vec4_lhs.z / vec4_rhs.z
+    @w = vec4_lhs.w / vec4_rhs.w
+  end
+
+  def element_div(vec4_rhs)
+    dup.element_div!(vec4_rhs)
+  end
+
+  def dot(vec4_rhs)
+    @x * vec4_rhs.x + @y * vec4_rhs.y + @z * vec4_rhs.z + @w * vec4_rhs.w
+  end
+
+  def cross!(vec4_rhs)
+
+  end
+
+  def cross_with!(vec4_lhs, vec4_rhs)
+
+  end
+
+  def cross(vec4_rhs)
+    dup.cross!(vec4_rhs)
+  end
+
+  def min!(vec4_rhs)
+    @x = @x < vec4_rhs.x ? @x : vec4_rhs.x
+    @y = @y < vec4_rhs.y ? @y : vec4_rhs.y
+    @z = @z < vec4_rhs.z ? @z : vec4_rhs.z
+    @w = @w < vec4_rhs.w ? @w : vec4_rhs.w
+  end
+
+  def min_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x < vec4_rhs.x ? vec4_lhs.x : vec4_rhs.x
+    @y = vec4_lhs.y < vec4_rhs.y ? vec4_lhs.y : vec4_rhs.y
+    @z = vec4_lhs.z < vec4_rhs.z ? vec4_lhs.z : vec4_rhs.z
+    @w = vec4_lhs.w < vec4_rhs.w ? vec4_lhs.w : vec4_rhs.w
+  end
+
+  def min(vec4_rhs)
+    dup.min!(vec4_rhs)
+  end
+
+  def max!(vec4_rhs)
+    @x = @x > vec4_rhs.x ? @x : vec4_rhs.x
+    @y = @y > vec4_rhs.y ? @y : vec4_rhs.y
+    @z = @z > vec4_rhs.z ? @z : vec4_rhs.z
+    @w = @w > vec4_rhs.w ? @w : vec4_rhs.w
+  end
+
+  def max_from!(vec4_lhs, vec4_rhs)
+    @x = vec4_lhs.x > vec4_rhs.x ? vec4_lhs.x : vec4_rhs.x
+    @y = vec4_lhs.y > vec4_rhs.y ? vec4_lhs.y : vec4_rhs.y
+    @z = vec4_lhs.z > vec4_rhs.z ? vec4_lhs.z : vec4_rhs.z
+    @w = vec4_lhs.w > vec4_rhs.w ? vec4_lhs.w : vec4_rhs.w
+  end
+
+  def max(vec4_rhs)
+    dup.max!(vec4_rhs)
+  end
+
+  def abs!
+    @x = @x.abs
+    @y = @y.abs
+    @z = @z.abs
+    @w = @w.abs
+  end
+
+  def abs_from!(vec4_other)
+    @x = vec4_other.x.abs
+    @y = vec4_other.y.abs
+    @z = vec4_other.z.abs
+    @w = vec4_other.w.abs
+  end
+
+  def abs
+    dup.abs!
+  end
+
+  def invert!
+    @x = -@x
+    @y = -@y
+    @z = -@z
+    @w = -@w
+  end
+
+  def invert_from!(vec4_other)
+    @x = -vec4_other.x
+    @y = -vec4_other.y
+    @z = -vec4_other.z
+    @w = -vec4_other.w
+  end
+
+  def invert
+    dup.invert!
+  end
+
+  def eq?(other)
+    @x == other.x && @y == other.y && @z == other.z && @w == other.w
+  end
+
+  def lerp!(vec4_rhs, scalar_t)
+    @x += scalar_t * (vec4_rhs.x - @x)
+    @y += scalar_t * (vec4_rhs.y - @y)
+    @z += scalar_t * (vec4_rhs.z - @z)
+    @w += scalar_t * (vec4_rhs.w - @w)
+  end
+
+  def lerp_from!(vec4_lhs, vec4_rhs, scalar_t)
+    @x = vec4_lhs.x + scalar_t * (vec4_rhs.x - vec4_lhs.x)
+    @y = vec4_lhs.y + scalar_t * (vec4_rhs.y - vec4_lhs.y)
+    @z = vec4_lhs.z + scalar_t * (vec4_rhs.z - vec4_lhs.z)
+    @w = vec4_lhs.w + scalar_t * (vec4_rhs.w - vec4_lhs.w)
+  end
+
+  def lerp(vec4_rhs, scalar_t)
+    dup.lerp!(vec4_rhs, scalar_t)
+  end
+
+  def length_sq
+    @x * @x + @y * @y + @z * @z + @w * @w
+  end
+
+  alias magnitude_sq length_sq
+
+  def length
+    Math.sqrt(@x * @x + @y * @y + @z * @z + @w * @w)
+  end
+
+  alias magnitude length
+
+  def distance_sq(vec4_rhs)
+    (@x * @x + @y * @y + @z * @z + @w * @w) - (vec4_rhs.x * vec4_rhs.x + vec4_rhs.y * vec4_rhs.y + vec4_rhs.z * vec4_rhs.z + vec4_rhs.w * vec4_rhs.w)
+  end
+
+  def distance(vec4_rhs)
+    Math.sqrt(@x * @x + @y * @y + @z * @z + @w * @w) - Math.sqrt(vec4_rhs.x * vec4_rhs.x + vec4_rhs.y * vec4_rhs.y + vec4_rhs.z * vec4_rhs.z + vec4_rhs.w * vec4_rhs.w)
+  end
+
+  def normalize!
+    inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z + @w * @w)
+    @x *= inverse_length
+    @y *= inverse_length
+    @z *= inverse_length
+    @w *= inverse_length
+  end
+
+  def normalize_from!(vec4_other)
+    inverse_length = 1.0 / Math.sqrt(vec4_other.x * vec4_other.x + vec4_other.y * vec4_other.y + vec4_other.z * vec4_other.z + vec4_other.w * vec4_other.w)
+    @x = vec4_other.x * inverse_length
+    @y = vec4_other.y * inverse_length
+    @z = vec4_other.z * inverse_length
+    @w = vec4_other.w * inverse_length
+  end
+
+  def normalize
+    dup.normalize!
+  end
+end
+
+class Mat2
+  attr_accessor(:xx, :xy, :yx, :yy)
+
+  def initialize(xx = 0.0, xy = 0.0, yx = 0.0, yy = 0.0)
+    @xx = xx
+    @xy = xy
+    @yx = yx
+    @yy = yy
+  end
+
+  IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
+  ZERO = Mat2.new.freeze
 
   def add!(mat2_rhs)
+    @xx += mat2_rhs.xx
+    @xy += mat2_rhs.xx
+    @yx += mat2_rhs.xx
+    @yy += mat2_rhs.xx
+  end
+
+  def add_from!(mat2_lhs, mat2_rhs)
 
   end
 
-  def add2!(mat2_lhs, mat2_rhs)
+  def add(mat2_rhs)
+    dup.add!(mat2_rhs)
+  end
+
+  alias + add
+
+  def sub!(mat2_rhs)
 
   end
 
-  def mul!
+  def sub_from!(mat2_lhs, mat2_rhs)
 
   end
+
+  def sub(mat2_rhs)
+    dup.sub!(mat2_rhs)
+  end
+
+  alias - sub
+
+  def mul!(mat2_rhs)
+
+  end
+
+  def mul_from!(mat2_lhs, mat2_rhs)
+
+  end
+
+  def mul(mat2_rhs)
+    dup.mul!(mat2_rhs)
+  end
+
+  alias * mul
 
   def eql?(other)
-    @m11 == other.m11 && @m12 == other.m12 && @m21 = other.m21 && @m22 = other.m22
+    @xx == other.xx && @xy == other.xy && @yx = other.yx && @yy = other.yy
   end
 
   def inverse!
-    determinant = (1.0 / @m11 * @m22 - @m21 * @m12)
+    determinant = (1.0 / @xx * @yy - @yx * @xy)
 
-    @m11 = @m22 * determinant
-    @m22 = @m11 * determinant
-    @m12 *= -determinant
-    @m21 *= -determinant
+    @xx = @yy * determinant
+    @yy = @xx * determinant
+    @xy *= -determinant
+    @yx *= -determinant
+  end
+
+  def inverse_from!(mat2_other)
+    determinant = (1.0 / mat2_other.xx * mat2_other.yy - mat2_other.yx * mat2_other.xy)
+
+    @xx = mat2_other.xx * determinant
+    @yy = mat2_other.yy * determinant
+    @xy *= -determinant
+    @yx *= -determinant
+  end
+
+  def inverse
+    dup.inverse!
   end
 
   def identity!
-    @m11 = 1.0
-    @m12 = 0.0
-    @m21 = 0.0
-    @m22 = 1.0
+    @xx = 1.0
+    @xy = 0.0
+    @yx = 0.0
+    @yy = 1.0
+  end
+
+  def identity
+    dup.identity!
   end
 
   def transpose!
-    m12 = @m12
-    @m12 = @m21
-    @m21 = m12
+    m12 = @xy # faster than parallel assignment or xor swaps
+    @xy = @yx
+    @yx = m12
+  end
+
+  def transpose_from!(mat2_other)
+    @xx = mat2_other.xx
+    @xy = mat2_other.yx
+    @yx = mat2_other.xy
+    @yy = mat2_other.yy
+  end
+
+  def transpose
+    dup.transpose!
   end
 
   def determinant
-    1.0 / @m11 * @m22 - @m21 * @m22
+    1.0 / @xx * @yy - @yx * @yy
   end
 end
