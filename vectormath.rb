@@ -103,7 +103,7 @@ class Vec2
   end
 
   def cross(vec2_rhs)
-    @y * vec2_rhs.x - @y * vec2_rhs.y
+    @x * vec2_rhs.y - @y * vec2_rhs.x
   end
 
   def min!(vec2_rhs)
@@ -162,8 +162,30 @@ class Vec2
     dup.invert!
   end
 
+  alias negate! invert!
+  alias negate invert
+
   def eq?(other)
     @x == other.x && @y == other.y
+  end
+
+  alias == eq?
+
+  def angle
+    Math.atan2f(@y, @x)
+  end
+
+  def angle(vec2_rhs)
+    inverse_length_lhs = 1.0 / Math.sqrt(@x * @x + @y * @y)
+    lhs_x = @x * inverse_length_lhs
+    lhs_y = @y * inverse_length_lhs
+
+    inverse_length_rhs = 1.0 / Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
+    rhs_x = vec2_rhs.x * inverse_length_rhs
+    rhs_y = vec2_rhs.y * inverse_length_rhs
+
+    angle = Math.atan2((lhs_x * rhs_y - lhs_y * rhs_x), (lhs_x * rhs_x + lhs_y * rhs_y))
+    angle.abs < Float::EPSILON ? 0.0 : angle
   end
 
   def lerp!(vec2_rhs, scalar_t)
@@ -216,7 +238,7 @@ class Vec2
     dup.normalize!
   end
 
-  def rotate_by!(vec2_center, scalar_degrees)
+  def rotate!(vec2_center, scalar_degrees)
     radians = scalar_degrees * PI_OVER_180
     cos = Math.cos(radians)
     sin = Math.sin(radians)
@@ -227,7 +249,7 @@ class Vec2
     @y = (@x * sin + @y * cos) + vec2_center.y
   end
 
-  def rotate_by_from!(vec2_other, vec2_center, scalar_degrees)
+  def rotate_from!(vec2_other, vec2_center, scalar_degrees)
     radians = scalar_degrees * PI_OVER_180
     cos = Math.cos(radians)
     sin = Math.sin(radians)
@@ -238,8 +260,8 @@ class Vec2
     @y = (vec2_other.x * sin + vec2_other.y * cos) + vec2_center.y
   end
 
-  def rotate_by(vec2_center, scalar_degrees)
-    dup.rotate_by!(vec2_center, scalar_degrees)
+  def rotate(vec2_center, scalar_degrees)
+    dup.rotate!(vec2_center, scalar_degrees)
   end
 end
 
@@ -442,9 +464,14 @@ class Vec3
     dup.invert!
   end
 
+  alias negate! invert!
+  alias negate invert
+
   def eq?(other)
     @x == other.x && @y == other.y && @z == other.z
   end
+
+  alias == eq?
 
   def lerp!(vec3_rhs, scalar_t)
     @x += scalar_t * (vec3_rhs.x - @x)
@@ -501,6 +528,8 @@ class Vec3
   end
 
   def rotatation_to_direction!(vec3_forwards)
+
+
   end
 
   def rotation_to_direction_from!(vec3_lhs, vec3_forwards)
@@ -723,9 +752,14 @@ class Vec4
     dup.invert!
   end
 
+  alias negate! invert!
+  alias negate invert
+
   def eq?(other)
     @x == other.x && @y == other.y && @z == other.z && @w == other.w
   end
+
+  alias == eq?
 
   def lerp!(vec4_rhs, scalar_t)
     @x += scalar_t * (vec4_rhs.x - @x)
@@ -902,3 +936,4 @@ class Mat2
     1.0 / @xx * @yy - @yx * @yy
   end
 end
+
