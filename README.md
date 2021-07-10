@@ -9,7 +9,7 @@ vec2_b = Vec2.new(3.3, 4.4)
 # mutates vec2_a
 vec2_a.add!(vec2_b)
 
-# makes shallow copy of vec2_a
+# shallow copy of vec2_a
 vec2_result = vec2_a + vec2_b
 
 # sets vec2_result to the result
