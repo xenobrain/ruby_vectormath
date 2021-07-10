@@ -1,6 +1,19 @@
 # ruby_vectormath
 
-Vector Math library written in carefully optimized pure Ruby.  Supports usage patterns that avoid any implicit memory allocation.
+Vector Math library written in pure Ruby
+
+It's designed to be:
+
+## Fast!
+Virtually every design decision was arrived at through extensive benchmarking in the DragonRuby runtime.
+They key feature, and reason for the library's creation are the #_from! methods which perform computation with the provided parameters and set the result.
+This allows the user to fully control when memory allocation occurs for a *massive* performance increase in loops with high iteration counts
+
+## Nice!
+The API is as nice and ruby-ish as possible without trading performance
+
+## Free!
+Released under public domain / Unlicense so copy/paste away
 
 ```ruby
 vec2_a = Vec2.new(1.1, 2.2)
