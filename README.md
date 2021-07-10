@@ -10,7 +10,7 @@ They key feature, and reason for the library's creation are the #_from! methods 
 This allows the user to fully control when memory allocation occurs for a *massive* performance increase in loops with high iteration counts
 
 ## Nice!
-The API is as nice and ruby-ish as possible without trading performance
+The API is as nice and ruby-ish as possible without trading performance.  Lots of functions!
 
 ## Free!
 Released under public domain / Unlicense so copy/paste away
