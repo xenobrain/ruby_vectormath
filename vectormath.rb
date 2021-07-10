@@ -8,11 +8,6 @@ class Vec2
     @y = y
   end
 
-  def add(vec2_rhs)
-    Vec2.new(@x + vec2_rhs.x,
-             @y + vec2_rhs.y)
-  end
-
   def add!(vec2_rhs)
     @x += vec2_rhs.x
     @y += vec2_rhs.y
@@ -23,10 +18,11 @@ class Vec2
     @y = vec2_rhs.y + vec2_rhs.y
   end
 
-  def sub(vec2_rhs)
-    Vec2.new(@x - vec2_rhs.x,
-             @y - vec2_rhs.y)
+  def add(vec2_rhs)
+    dup.add!(vec2_rhs)
   end
+
+  alias + add
 
   def sub!(vec2_rhs)
     @x -= vec2_rhs.x
@@ -38,10 +34,11 @@ class Vec2
     @y = vec2_lhs.y - vec2_lhs.y
   end
 
-  def mul(scalar_rhs)
-    Vec2.new(@x * scalar_rhs,
-             @y * scalar_rhs)
+  def sub(vec2_rhs)
+    dup.sub!(vec2_rhs)
   end
+
+  alias - sub
 
   def mul!(scalar_rhs)
     @x *= scalar_rhs
@@ -53,10 +50,11 @@ class Vec2
     @y = vec2_lhs.y * scalar_rhs
   end
 
-  def mul_add(vec2_rhs, scalar_mul)
-    Vec2.new(@x + vec2_rhs.x * scalar_mul,
-             @y + vec2_rhs.y * scalar_mul)
+  def mul(scalar_rhs)
+    dup.mul!(scalar_rhs)
   end
+
+  alias * mul
 
   def mul_add!(vec2_rhs, scalar_mul)
     @x += vec2_rhs.x * scalar_mul
@@ -68,9 +66,8 @@ class Vec2
     @y = vec2_lhs.y + vec2_rhs.y * scalar_rhs
   end
 
-  def element_mul(vec2_rhs)
-    Vec2.new(@x * vec2_rhs.x,
-             @y * vec2_rhs.y)
+  def mul_add(vec2_rhs, scalar_mul)
+    dup.mul_add!(vec2_rhs, scalar_mul)
   end
 
   def element_mul!(vec2_rhs)
@@ -83,9 +80,8 @@ class Vec2
     @y = vec2_lhs.y * vec2_rhs.y
   end
 
-  def element_div(vec2_rhs)
-    Vec2.new(@x / vec2_rhs.x,
-             @y / vec2_rhs.y)
+  def element_mul(vec2_rhs)
+    dup.element_mul!(vec2_rhs)
   end
 
   def element_div!(vec2_rhs)
@@ -98,17 +94,16 @@ class Vec2
     @y = vec2_lhs.y / vec2_rhs.y
   end
 
+  def element_div(vec2_rhs)
+    dup.element_div!(vec2_rhs)
+  end
+
   def dot(vec2_rhs)
     @x * vec2_rhs.x + @y * vec2_rhs.y
   end
 
   def cross(vec2_rhs)
     @y * vec2_rhs.x - @y * vec2_rhs.y
-  end
-
-  def min(vec2_rhs)
-    Vec2.new(@x < vec2_rhs.x ? @x : vec2_rhs.x,
-             @y < vec2_rhs.y ? @y : vec2_rhs.y)
   end
 
   def min!(vec2_rhs)
@@ -121,9 +116,8 @@ class Vec2
     @y = vec2_lhs.y < vec2_rhs.y ? vec2_lhs.y : vec2_rhs.y
   end
 
-  def max(vec2_rhs)
-    Vec2.new(@x > vec2_rhs.x ? @x : vec2_rhs.x,
-             @y > vec2_rhs.y ? @y : vec2_rhs.y)
+  def min(vec2_rhs)
+    dup.min!(vec2_rhs)
   end
 
   def max!(vec2_rhs)
@@ -136,9 +130,8 @@ class Vec2
     @y = vec2_lhs.y > vec2_rhs.y ? vec2_lhs.y : vec2_rhs.y
   end
 
-  def abs
-    Vec2.new(@x.abs,
-             @y.abs)
+  def max(vec2_rhs)
+    dup.max!(vec2_rhs)
   end
 
   def abs!
@@ -146,14 +139,13 @@ class Vec2
     @y = @y.abs
   end
 
-  def abs_from!(other)
-    @x = other.x.abs
-    @y = other.y.abs
+  def abs_from!(vec2_other)
+    @x = vec2_other.x.abs
+    @y = vec2_other.y.abs
   end
 
-  def invert
-    Vec2.new(-@x,
-             -@y)
+  def abs
+    dup.abs!
   end
 
   def invert!
@@ -161,18 +153,17 @@ class Vec2
     @y = -@y
   end
 
-  def invert_from!(other)
-    @x = -other.x
-    @y = -other.y
+  def invert_from!(vec2_other)
+    @x = -vec2_other.x
+    @y = -vec2_other.y
+  end
+
+  def invert
+    dup.invert!
   end
 
   def eq?(other)
     @x == other.x && @y == other.y
-  end
-
-  def lerp(vec2_rhs, scalar_t)
-    Vec2.new(@x + scalar_t * (vec2_rhs.x - @x),
-             @y + scalar_t * (vec2_rhs.y - @y))
   end
 
   def lerp!(vec2_rhs, scalar_t)
@@ -185,22 +176,24 @@ class Vec2
     @y = vec2_lhs.y + scalar_t * (vec2_rhs.y - vec2_lhs.y)
   end
 
+  def lerp(vec2_rhs, scalar_t)
+    dup.lerp!(vec2_rhs, scalar_t)
+  end
+
   def length_sq
     @x * @x + @y * @y
   end
+
+  alias magnitude_sq length_sq
 
   def length
     Math.sqrt(@x * @x + @y * @y)
   end
 
+  alias magnitude length
+
   def distance(vec2_rhs)
     Math.sqrt(@x * @x + @y * @y) - Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
-  end
-
-  def normalize
-    inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y)
-    Vec2.new(@x * inverse_length,
-             @y * inverse_length)
   end
 
   def normalize!
@@ -215,16 +208,8 @@ class Vec2
     @y = vec2_other.y * inverse_length
   end
 
-  def rotate_by(vec2_center, scalar_degrees)
-    radians = scalar_degrees * PI_OVER_180
-    cos = Math.cos(radians)
-    sin = Math.sin(radians)
-
-    dx = @x - vec2_center.x
-    dy = @y - vec2_center.y
-
-    Vec2.new((dx * cos - dy * sin) + vec2_center.x,
-             (dx * sin + dy * cos) + vec2_center.y)
+  def normalize
+    dup.normalize!
   end
 
   def rotate_by!(vec2_center, scalar_degrees)
@@ -247,6 +232,10 @@ class Vec2
     @y = vec2_other.x - vec2_center.y
     @x = (vec2_other.x * cos - vec2_other.y * sin) + vec2_center.x
     @y = (vec2_other.x * sin + vec2_other.y * cos) + vec2_center.y
+  end
+
+  def rotate_by(vec2_center, scalar_degrees)
+    dup.rotate_by!(vec2_center, scalar_degrees)
   end
 end
 
