@@ -54,36 +54,36 @@ class Vec2
     dup.scale!(scalar_rhs)
   end
 
-  def element_mul!(vec2_rhs)
+  def mul!(vec2_rhs)
     @x *= vec2_rhs.x
     @y *= vec2_rhs.y
     self
   end
 
-  def element_mul_from!(vec2_lhs, vec2_rhs)
+  def mul_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x * vec2_rhs.x
     @y = vec2_lhs.y * vec2_rhs.y
     self
   end
 
-  def element_mul(vec2_rhs)
-    dup.element_mul!(vec2_rhs)
+  def mul(vec2_rhs)
+    dup.mul!(vec2_rhs)
   end
 
-  def element_div!(vec2_rhs)
+  def div!(vec2_rhs)
     @x /= vec2_rhs.x
     @y /= vec2_rhs.y
     self
   end
 
-  def element_div_from!(vec2_lhs, vec2_rhs)
+  def div_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x / vec2_rhs.x
     @y = vec2_lhs.y / vec2_rhs.y
     self
   end
 
-  def element_div(vec2_rhs)
-    dup.element_div!(vec2_rhs)
+  def div(vec2_rhs)
+    dup.div!(vec2_rhs)
   end
 
   def dot(vec2_rhs)
@@ -277,8 +277,8 @@ class Vec2
 
   alias + add
   alias - sub
-  alias * element_mul
-  alias / element_div
+  alias * mul
+  alias / div
   alias == eq?
 end
 
@@ -345,40 +345,40 @@ class Vec3
     dup.scale!(scalar_rhs)
   end
 
-  def element_mul!(vec3_rhs)
+  def mul!(vec3_rhs)
     @x *= vec3_rhs.x
     @y *= vec3_rhs.y
     @z *= vec3_rhs.z
     self
   end
 
-  def element_mul_from!(vec3_lhs, vec3_rhs)
+  def mul_from!(vec3_lhs, vec3_rhs)
     @x = vec3_lhs.x * vec3_rhs.x
     @y = vec3_lhs.y * vec3_rhs.y
     @z = vec3_lhs.z * vec3_rhs.z
     self
   end
 
-  def element_mul(vec3_rhs)
-    dup.element_mul!(vec3_rhs)
+  def mul(vec3_rhs)
+    dup.mul!(vec3_rhs)
   end
 
-  def element_div!(vec3_rhs)
+  def div!(vec3_rhs)
     @x /= vec3_rhs.x
     @y /= vec3_rhs.y
     @z /= vec3_rhs.z
     self
   end
 
-  def element_div_from!(vec3_lhs, vec3_rhs)
+  def div_from!(vec3_lhs, vec3_rhs)
     @x = vec3_lhs.x / vec3_rhs.x
     @y = vec3_lhs.y / vec3_rhs.y
     @z = vec3_lhs.z / vec3_rhs.z
     self
   end
 
-  def element_div(vec3_rhs)
-    dup.element_div!(vec3_rhs)
+  def div(vec3_rhs)
+    dup.div!(vec3_rhs)
   end
 
   def dot(vec3_rhs)
@@ -568,8 +568,8 @@ class Vec3
 
   alias + add
   alias - sub
-  alias * element_mul
-  alias / element_div
+  alias * mul
+  alias / div
   alias == eq?
 end
 
@@ -643,7 +643,7 @@ class Vec4
     dup.scale!(scalar_rhs)
   end
 
-  def element_mul!(vec4_rhs)
+  def mul!(vec4_rhs)
     @x *= vec4_rhs.x
     @y *= vec4_rhs.y
     @z *= vec4_rhs.z
@@ -651,7 +651,7 @@ class Vec4
     self
   end
 
-  def element_mul_from!(vec4_lhs, vec4_rhs)
+  def mul_from!(vec4_lhs, vec4_rhs)
     @x = vec4_lhs.x * vec4_rhs.x
     @y = vec4_lhs.y * vec4_rhs.y
     @z = vec4_lhs.z * vec4_rhs.z
@@ -659,11 +659,11 @@ class Vec4
     self
   end
 
-  def element_mul(vec4_rhs)
-    dup.element_mul!(vec4_rhs)
+  def mul(vec4_rhs)
+    dup.mul!(vec4_rhs)
   end
 
-  def element_div!(vec4_rhs)
+  def div!(vec4_rhs)
     @x /= vec4_rhs.x
     @y /= vec4_rhs.y
     @z /= vec4_rhs.z
@@ -671,7 +671,7 @@ class Vec4
     self
   end
 
-  def element_div_from!(vec4_lhs, vec4_rhs)
+  def div_from!(vec4_lhs, vec4_rhs)
     @x = vec4_lhs.x / vec4_rhs.x
     @y = vec4_lhs.y / vec4_rhs.y
     @z = vec4_lhs.z / vec4_rhs.z
@@ -679,8 +679,8 @@ class Vec4
     self
   end
 
-  def element_div(vec4_rhs)
-    dup.element_div!(vec4_rhs)
+  def div(vec4_rhs)
+    dup.div!(vec4_rhs)
   end
 
   def dot(vec4_rhs)
@@ -862,8 +862,8 @@ class Vec4
 
   alias + add
   alias - sub
-  alias * element_mul
-  alias / element_div
+  alias * mul
+  alias / div
   alias == eq?
 end
 
