@@ -6,7 +6,7 @@ It's designed to be:
 
 ## Fast!
 Virtually every design decision was arrived at through extensive benchmarking in the DragonRuby runtime.
-They key feature, and reason for the library's creation are the #_from! methods which perform computation with the provided parameters and set the result.
+They key feature and reason for the library's creation are the #_from! methods which perform computation with the provided parameters and set the result to the calling vector.
 This allows the user to fully control when memory allocation occurs for a *massive* performance increase in loops with high iteration counts
 
 ## Nice!
