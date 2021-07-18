@@ -300,8 +300,8 @@ class Vec3
 
   def add_from!(vec3_lhs, vec3_rhs)
     @x = vec3_lhs.x + vec3_rhs.x
-    @y = vec3_rhs.y + vec3_rhs.y
-    @z = vec3_rhs.z + vec3_rhs.z
+    @y = vec3_lhs.y + vec3_rhs.y
+    @z = vec3_lhs.z + vec3_rhs.z
     self
   end
 
@@ -593,9 +593,9 @@ class Vec4
 
   def add_from!(vec4_lhs, vec4_rhs)
     @x = vec4_lhs.x + vec4_rhs.x
-    @y = vec4_rhs.y + vec4_rhs.y
-    @z = vec4_rhs.z + vec4_rhs.z
-    @z = vec4_rhs.w + vec4_rhs.w
+    @y = vec4_lhs.y + vec4_rhs.y
+    @z = vec4_lhs.z + vec4_rhs.z
+    @z = vec4_lhs.w + vec4_rhs.w
     self
   end
 
