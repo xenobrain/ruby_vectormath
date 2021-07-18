@@ -6,6 +6,10 @@ class Vec2
     @y = y
   end
 
+  def to_a
+    [@x, @y]
+  end
+
   def add!(vec2_rhs)
     @x += vec2_rhs.x
     @y += vec2_rhs.y
@@ -300,6 +304,10 @@ class Vec3
     @x = x
     @y = y
     @z = z
+  end
+
+  def to_a
+    [@x, @y, @z]
   end
 
   def add!(vec3_rhs)
@@ -609,6 +617,10 @@ class Vec4
     @w = w
   end
 
+  def to_a
+    [@x, @y, @z, @w]
+  end
+
   def add!(vec4_rhs)
     @x += vec4_rhs.x
     @y += vec4_rhs.y
@@ -712,7 +724,7 @@ class Vec4
   def dot(vec4_rhs)
     @x * vec4_rhs.x + @y * vec4_rhs.y + @z * vec4_rhs.z + @w * vec4_rhs.w
   end
-  
+
   def min!(vec4_rhs)
     @x = @x < vec4_rhs.x ? @x : vec4_rhs.x
     @y = @y < vec4_rhs.y ? @y : vec4_rhs.y
@@ -901,6 +913,10 @@ class Mat2
     @xy = xy
     @yx = yx
     @yy = yy
+  end
+
+  def to_a
+    [[@xx, @xy], [@yx, @yy]]
   end
 
   IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
