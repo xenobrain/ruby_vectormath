@@ -1,3 +1,6 @@
+DEG2RAD = Math::PI / 180.0
+RAD2DEG = 180.0 / Math::PI
+
 class Vec2
   attr_accessor(:x, :y)
 
@@ -237,8 +240,10 @@ class Vec2
   end
 
   def normalize!
-    inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y)
-    return self if inverse_length == Float::INFINITY
+    length_sq = @x * @x + @y * @y
+    return self if length_sq.zero?
+
+    inverse_length = 1.0 / Math.sqrt(length_sq)
 
     @x *= inverse_length
     @y *= inverse_length
@@ -246,12 +251,14 @@ class Vec2
   end
 
   def normalize_from!(vec2_other)
-    inverse_length = 1.0 / Math.sqrt(vec2_other.x * vec2_other.x + vec2_other.y * vec2_other.y)
-    if inverse_length == Float::INFINITY
+    length_sq = vec2_other.x * vec2_other.x + vec2_other.y * vec2_other.y
+    if length_sq.zero?
       @x = vec2_other.x
       @y = vec2_other.y
       return self
     end
+
+    inverse_length = 1.0 / Math.sqrt(vec2_other.x * vec2_other.x + vec2_other.y * vec2_other.y)
 
     @x = vec2_other.x * inverse_length
     @y = vec2_other.y * inverse_length
@@ -263,7 +270,7 @@ class Vec2
   end
 
   def rotate!(vec2_center, scalar_degrees)
-    radians = scalar_degrees * PI_OVER_180
+    radians = scalar_degrees * DEG2RAD
     cos = Math.cos(radians)
     sin = Math.sin(radians)
 
@@ -275,7 +282,7 @@ class Vec2
   end
 
   def rotate_from!(vec2_other, vec2_center, scalar_degrees)
-    radians = scalar_degrees * PI_OVER_180
+    radians = scalar_degrees * DEG2RAD
     cos = Math.cos(radians)
     sin = Math.sin(radians)
 
@@ -558,8 +565,10 @@ class Vec3
   end
 
   def normalize!
+    length_sq = @x * @x + @y * @y + @z * @z
+    return self if length_sq.zero?
+
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z)
-    return self if inverse_length == Float::INFINITY
 
     @x *= inverse_length
     @y *= inverse_length
@@ -568,13 +577,16 @@ class Vec3
   end
 
   def normalize_from!(vec3_other)
-    inverse_length = 1.0 / Math.sqrt(vec3_other.x * vec3_other.x + vec3_other.y * vec3_other.y + vec3_other.z * vec3_other.z)
-    if inverse_length == Float::INFINITY
+    length_sq = vec3_other.x * vec3_other.x + vec3_other.y * vec3_other.y + vec3_other.z * vec3_other.z
+
+    if length_sq.zero?
       @x = vec3_other.x
       @y = vec3_other.y
       @z = vec3_other.z
       return self
     end
+
+    inverse_length = 1.0 / Math.sqrt(vec3_other.x * vec3_other.x + vec3_other.y * vec3_other.y + vec3_other.z * vec3_other.z)
 
     @x = vec3_other.x * inverse_length
     @y = vec3_other.y * inverse_length
@@ -878,14 +890,16 @@ class Vec4
   end
 
   def normalize_from!(vec4_other)
-    inverse_length = 1.0 / Math.sqrt(vec4_other.x * vec4_other.x + vec4_other.y * vec4_other.y + vec4_other.z * vec4_other.z + vec4_other.w * vec4_other.w)
-    if inverse_length == Float::INFINITY
+    length_sq = vec4_other.x * vec4_other.x + vec4_other.y * vec4_other.y + vec4_other.z * vec4_other.z + vec4_other.w * vec4_other.w
+    if length_sq.zero?
       @x = vec4_other.x
       @y = vec4_other.y
       @z = vec4_other.z
       @w = vec4_other.w
       return self
     end
+
+    inverse_length = 1.0 / Math.sqrt(length_sq)
 
     @x = vec4_other.x * inverse_length
     @y = vec4_other.y * inverse_length
