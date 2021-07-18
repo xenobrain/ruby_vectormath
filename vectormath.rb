@@ -191,6 +191,7 @@ class Vec2
   def lerp_from!(vec2_lhs, vec2_rhs, scalar_t)
     @x = vec2_lhs.x + scalar_t * (vec2_rhs.x - vec2_lhs.x)
     @y = vec2_lhs.y + scalar_t * (vec2_rhs.y - vec2_lhs.y)
+    self
   end
 
   def lerp(vec2_rhs, scalar_t)
@@ -198,10 +199,12 @@ class Vec2
   end
 
   def slerp!(vec2_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
   def slerp_from!(vec2_lhs, vec2_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
@@ -513,10 +516,12 @@ class Vec3
   end
 
   def slerp!(vec3_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
   def slerp_from!(vec3_lhs, vec3_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
@@ -551,6 +556,7 @@ class Vec3
     @x *= inverse_length
     @y *= inverse_length
     @z *= inverse_length
+    self
   end
 
   def normalize_from!(vec3_other)
@@ -565,6 +571,7 @@ class Vec3
     @x = vec3_other.x * inverse_length
     @y = vec3_other.y * inverse_length
     @z = vec3_other.z * inverse_length
+    self
   end
 
   def normalize
@@ -572,11 +579,13 @@ class Vec3
   end
 
   def rotatation_to_direction!(vec3_forwards)
-
-
+     raise 'not implemented'
+     self
   end
 
   def rotation_to_direction_from!(vec3_lhs, vec3_forwards)
+    raise 'not implemented'
+    self
   end
 
   def rotatation_to_direction(vec3_forwards)
@@ -926,10 +935,12 @@ class Mat2
   alias + add
 
   def sub!(mat2_rhs)
+    raise 'not implemented'
     self
   end
 
   def sub_from!(mat2_lhs, mat2_rhs)
+    aise 'not implemented'
     self
   end
 
@@ -940,10 +951,12 @@ class Mat2
   alias - sub
 
   def mul!(mat2_rhs)
+    aise 'not implemented'
     self
   end
 
   def mul_from!(mat2_lhs, mat2_rhs)
+    aise 'not implemented'
     self
   end
 
