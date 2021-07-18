@@ -235,7 +235,7 @@ class Vec2
   def normalize!
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y)
     return self if inverse_length == Float::INFINITY
-    
+
     @x *= inverse_length
     @y *= inverse_length
     self
@@ -248,7 +248,7 @@ class Vec2
       @y = vec2_other.y
       return self
     end
-    
+
     @x = vec2_other.x * inverse_length
     @y = vec2_other.y * inverse_length
     self
@@ -552,7 +552,7 @@ class Vec3
   def normalize!
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z)
     return self if inverse_length == Float::INFINITY
-    
+
     @x *= inverse_length
     @y *= inverse_length
     @z *= inverse_length
@@ -567,7 +567,7 @@ class Vec3
       @z = vec3_other.z
       return self
     end
-    
+
     @x = vec3_other.x * inverse_length
     @y = vec3_other.y * inverse_length
     @z = vec3_other.z * inverse_length
@@ -579,8 +579,8 @@ class Vec3
   end
 
   def rotatation_to_direction!(vec3_forwards)
-     raise 'not implemented'
-     self
+    raise 'not implemented'
+    self
   end
 
   def rotation_to_direction_from!(vec3_lhs, vec3_forwards)
@@ -712,19 +712,7 @@ class Vec4
   def dot(vec4_rhs)
     @x * vec4_rhs.x + @y * vec4_rhs.y + @z * vec4_rhs.z + @w * vec4_rhs.w
   end
-
-  def cross!(vec4_rhs)
-    self
-  end
-
-  def cross_with!(vec4_lhs, vec4_rhs)
-    self
-  end
-
-  def cross(vec4_rhs)
-    dup.cross!(vec4_rhs)
-  end
-
+  
   def min!(vec4_rhs)
     @x = @x < vec4_rhs.x ? @x : vec4_rhs.x
     @y = @y < vec4_rhs.y ? @y : vec4_rhs.y
@@ -833,10 +821,12 @@ class Vec4
   end
 
   def slerp!(vec4_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
   def slerp_from!(vec4_lhs, vec4_rhs, scalar_t)
+    raise 'not implemented'
     self
   end
 
@@ -867,7 +857,7 @@ class Vec4
   def normalize!
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z + @w * @w)
     return self if inverse_length == Float::INFINITY
-    
+
     @x *= inverse_length
     @y *= inverse_length
     @z *= inverse_length
@@ -884,7 +874,7 @@ class Vec4
       @w = vec4_other.w
       return self
     end
-    
+
     @x = vec4_other.x * inverse_length
     @y = vec4_other.y * inverse_length
     @z = vec4_other.z * inverse_length
