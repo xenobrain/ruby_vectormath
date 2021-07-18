@@ -241,7 +241,7 @@ class Vec2
 
   def normalize!
     length_sq = @x * @x + @y * @y
-    return self if length_sq.zero?
+    return self if length_sq == 0
 
     inverse_length = 1.0 / Math.sqrt(length_sq)
 
@@ -252,7 +252,7 @@ class Vec2
 
   def normalize_from!(vec2_other)
     length_sq = vec2_other.x * vec2_other.x + vec2_other.y * vec2_other.y
-    if length_sq.zero?
+    if length_sq == 0
       @x = vec2_other.x
       @y = vec2_other.y
       return self
@@ -566,7 +566,7 @@ class Vec3
 
   def normalize!
     length_sq = @x * @x + @y * @y + @z * @z
-    return self if length_sq.zero?
+    return self if length_sq == 0
 
     inverse_length = 1.0 / Math.sqrt(@x * @x + @y * @y + @z * @z)
 
@@ -579,7 +579,7 @@ class Vec3
   def normalize_from!(vec3_other)
     length_sq = vec3_other.x * vec3_other.x + vec3_other.y * vec3_other.y + vec3_other.z * vec3_other.z
 
-    if length_sq.zero?
+    if length_sq == 0
       @x = vec3_other.x
       @y = vec3_other.y
       @z = vec3_other.z
@@ -891,7 +891,7 @@ class Vec4
 
   def normalize_from!(vec4_other)
     length_sq = vec4_other.x * vec4_other.x + vec4_other.y * vec4_other.y + vec4_other.z * vec4_other.z + vec4_other.w * vec4_other.w
-    if length_sq.zero?
+    if length_sq == 0
       @x = vec4_other.x
       @y = vec4_other.y
       @z = vec4_other.z
