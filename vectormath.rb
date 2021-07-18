@@ -14,7 +14,7 @@ class Vec2
 
   def add_from!(vec2_lhs, vec2_rhs)
     @x = vec2_lhs.x + vec2_rhs.x
-    @y = vec2_rhs.y + vec2_rhs.y
+    @y = vec2_lhs.y + vec2_rhs.y
     self
   end
 
