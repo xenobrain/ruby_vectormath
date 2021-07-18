@@ -13,6 +13,18 @@ class Vec2
     [@x, @y]
   end
 
+  def set!(x, y)
+    @x = x
+    @y = y
+    self
+  end
+
+  def set_from!(vec2_other)
+    @x = vec2_other.x
+    @y = vec2_other.y
+    self
+  end
+
   def add!(vec2_rhs)
     @x += vec2_rhs.x
     @y += vec2_rhs.y
@@ -317,6 +329,20 @@ class Vec3
     [@x, @y, @z]
   end
 
+  def set!(x, y, z)
+    @x = x
+    @y = y
+    @z = z
+    self
+  end
+
+  def set_from!(vec3_other)
+    @x = vec3_other.x
+    @y = vec3_other.y
+    @z = vec3_other.z
+    self
+  end
+
   def add!(vec3_rhs)
     @x += vec3_rhs.x
     @y += vec3_rhs.y
@@ -422,7 +448,7 @@ class Vec3
     self
   end
 
-  def cross_with!(vec3_lhs, vec3_rhs)
+  def cross_from!(vec3_lhs, vec3_rhs)
     @x = vec3_lhs.y * vec3_rhs.z - vec3_lhs.z * vec3_rhs.y
     @y = vec3_lhs.z * vec3_rhs.x - vec3_lhs.x * vec3_rhs.z
     @z = vec3_lhs.x * vec3_rhs.y - vec3_lhs.y * vec3_rhs.x
@@ -631,6 +657,22 @@ class Vec4
 
   def to_a
     [@x, @y, @z, @w]
+  end
+
+  def set!(x, y, z, w)
+    @x = x
+    @y = y
+    @z = z
+    @w = w
+    self
+  end
+
+  def set_from!(vec4_other)
+    @x = vec4_other.x
+    @y = vec4_other.y
+    @z = vec4_other.z
+    @w = vec4_other.w
+    self
   end
 
   def add!(vec4_rhs)
@@ -931,6 +973,22 @@ class Mat2
 
   def to_a
     [[@xx, @xy], [@yx, @yy]]
+  end
+
+  def set!(xx, xy, yx, yy)
+    @xx = xx
+    @xy = xy
+    @yx = yx
+    @yy = yy
+    self
+  end
+
+  def set_from!(mat2_other)
+    @xx = mat2_other.xx
+    @xy = mat2_other.xy
+    @yx = mat2_other.yx
+    @yy = mat2_other.yy
+    self
   end
 
   IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
