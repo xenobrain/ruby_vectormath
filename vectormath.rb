@@ -183,6 +183,10 @@ class Vec2
   def eq?(other)
     @x == other.x && @y == other.y
   end
+  
+  def neq?(other)
+    @x != other.x || @y != other.y
+  end
 
   def angle
     Math.atan2(@y, @x)
@@ -314,6 +318,8 @@ class Vec2
   alias * mul
   alias / div
   alias == eq?
+  alias != neq?
+  
 end
 
 class Vec3
