@@ -183,7 +183,7 @@ class Vec2
   def eq?(other)
     @x == other.x && @y == other.y
   end
-  
+
   def neq?(other)
     @x != other.x || @y != other.y
   end
@@ -219,20 +219,6 @@ class Vec2
 
   def lerp(vec2_rhs, scalar_t)
     dup.lerp!(vec2_rhs, scalar_t)
-  end
-
-  def slerp!(vec2_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp_from!(vec2_lhs, vec2_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp(vec2_rhs, scalar_t)
-    dup.slerp!(vec2_rhs, scalar_t)
   end
 
   def length_sq
@@ -319,9 +305,8 @@ class Vec2
   alias / div
   alias == eq?
   alias != neq?
-  
-end
 
+end
 class Vec3
   attr_accessor(:x, :y, :z, :w)
 
@@ -997,9 +982,6 @@ class Mat2
     self
   end
 
-  IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
-  ZERO = Mat2.new.freeze
-
   def add!(mat2_rhs)
     @xx += mat2_rhs.xx
     @xy += mat2_rhs.xx
@@ -1009,6 +991,10 @@ class Mat2
   end
 
   def add_from!(mat2_lhs, mat2_rhs)
+    @xx = mat2_lhs.xx + mat2_rhs.xx
+    @xy = mat2_lhs.xy + mat2_rhs.xy
+    @yx = mat2_lhs.yx + mat2_rhs.yx
+    @yy = mat2_lhs.yy + mat2_rhs.yy
     self
   end
 
@@ -1019,12 +1005,18 @@ class Mat2
   alias + add
 
   def sub!(mat2_rhs)
-    raise 'not implemented'
+    @xx -= mat2_rhs.xx
+    @xy -= mat2_rhs.xx
+    @yx -= mat2_rhs.xx
+    @yy -= mat2_rhs.xx
     self
   end
 
   def sub_from!(mat2_lhs, mat2_rhs)
-    aise 'not implemented'
+    @xx = mat2_lhs.xx - mat2_rhs.xx
+    @xy = mat2_lhs.xy - mat2_rhs.xy
+    @yx = mat2_lhs.yx - mat2_rhs.yx
+    @yy = mat2_lhs.yy - mat2_rhs.yy
     self
   end
 
@@ -1033,23 +1025,7 @@ class Mat2
   end
 
   alias - sub
-
-  def mul!(mat2_rhs)
-    aise 'not implemented'
-    self
-  end
-
-  def mul_from!(mat2_lhs, mat2_rhs)
-    aise 'not implemented'
-    self
-  end
-
-  def mul(mat2_rhs)
-    dup.mul!(mat2_rhs)
-  end
-
-  alias * mul
-
+  
   def eql?(other)
     @xx == other.xx && @xy == other.xy && @yx = other.yx && @yy = other.yy
   end
@@ -1112,4 +1088,7 @@ class Mat2
   def determinant
     1.0 / @xx * @yy - @yx * @yy
   end
+
+  IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
+  ZERO = Mat2.new.freeze
 end
