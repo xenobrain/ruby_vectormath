@@ -41,6 +41,22 @@ class Vec2
     dup.add!(vec2_rhs)
   end
 
+  def add_scalar!(scalar_lhs)
+    @x += scalar_lhs
+    @y += scalar_lhs
+    self
+  end
+
+  def add_scalar_from!(vec2_rhs, scalar_lhs)
+    @x = vec2_rhs.x + scalar_lhs
+    @y = vec2_rhs.y + scalar_lhs
+    self
+  end
+
+  def add_scalar(scalar_lhs)
+    dup.add_scalar!(scalar_lhs)
+  end
+
   def sub!(vec2_rhs)
     @x -= vec2_rhs.x
     @y -= vec2_rhs.y
@@ -57,20 +73,36 @@ class Vec2
     dup.sub!(vec2_rhs)
   end
 
-  def scale!(scalar_rhs)
+  def sub_scalar!(scalar_lhs)
+    @x -= scalar_lhs
+    @y -= scalar_lhs
+    self
+  end
+
+  def sub_scalar_from!(vec2_rhs, scalar_lhs)
+    @x = vec2_rhs.x - scalar_lhs
+    @y = vec2_rhs.y - scalar_lhs
+    self
+  end
+
+  def sub_scalar(scalar_lhs)
+    dup.sub_scalar!(scalar_lhs)
+  end
+
+  def mul_scalar!(scalar_rhs)
     @x *= scalar_rhs
     @y *= scalar_rhs
     self
   end
 
-  def scale_from!(vec2_lhs, scalar_rhs)
+  def mul_scalar_from!(vec2_lhs, scalar_rhs)
     @x = vec2_lhs.x * scalar_rhs
     @y = vec2_lhs.y * scalar_rhs
     self
   end
 
-  def scale(scalar_rhs)
-    dup.scale!(scalar_rhs)
+  def mul_scalar(scalar_rhs)
+    dup.mul_scalar!(scalar_rhs)
   end
 
   def mul!(vec2_rhs)
@@ -105,12 +137,44 @@ class Vec2
     dup.div!(vec2_rhs)
   end
 
+  def div_scalar!(scalar_rhs)
+    @x /= scalar_rhs
+    @y /= scalar_rhs
+    self
+  end
+
+  def div_scalar_from!(vec2_lhs, scalar_rhs)
+    @x = vec2_lhs.x / scalar_rhs
+    @y = vec2_lhs.y / scalar_rhs
+    self
+  end
+
+  def div_scalar(scalar_rhs)
+    dup.div_scalar!(scalar_rhs)
+  end
+
   def dot(vec2_rhs)
     @x * vec2_rhs.x + @y * vec2_rhs.y
   end
 
   def cross(vec2_rhs)
     @x * vec2_rhs.y - @y * vec2_rhs.x
+  end
+
+  def cross_scalar!(scalar_lhs)
+    @x = @y * -scalar_lhs
+    @y = @x *  scalar_lhs
+    self
+  end
+
+  def cross_scalar_from!(vec2_rhs, scalar_lhs)
+    @x = vec2_rhs.y * -scalar_lhs
+    @y = vec2_rhs.x *  scalar_lhs
+    self
+  end
+
+  def cross_scalar(scalar_lhs)
+    dup.cross_scalar!(scalar_lhs)
   end
 
   def min!(vec2_rhs)
@@ -177,9 +241,6 @@ class Vec2
     dup.invert!
   end
 
-  alias negate! invert!
-  alias negate invert
-
   def eq?(other)
     @x == other.x && @y == other.y
   end
@@ -225,13 +286,9 @@ class Vec2
     @x * @x + @y * @y
   end
 
-  alias magnitude_sq length_sq
-
   def length
     Math.sqrt(@x * @x + @y * @y)
   end
-
-  alias magnitude length
 
   def distance_sq(vec2_rhs)
     (@x * @x + @y * @y) - (vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
@@ -306,7 +363,17 @@ class Vec2
   alias == eq?
   alias != neq?
 
+  alias scale mul_scalar
+  alias scale! mul_scalar!
+  alias scale_from! mul_scalar_from!
+
+  alias negate invert
+  alias negate! invert!
+
+  alias magnitude length
+  alias magnitude_sq length_sq
 end
+
 class Vec3
   attr_accessor(:x, :y, :z, :w)
 
