@@ -327,32 +327,22 @@ class Vec2
     dup.normalize!
   end
 
-  def rotate!(vec2_center, scalar_degrees)
-    radians = scalar_degrees * DEG2RAD
-    cos = Math.cos(radians)
-    sin = Math.sin(radians)
+ def rotate_by!(vec2_center, scalar_degrees)
+    scalar_degrees *= DEG2RAD
+    cos = Math.cos(scalar_degrees)
+    sin = Math.sin(scalar_degrees)
 
     @x -= vec2_center.x
     @y -= vec2_center.y
-    @x = (@x * cos - @y * sin) + vec2_center.x
-    @y = (@x * sin + @y * cos) + vec2_center.y
-    self
-  end
 
-  def rotate_from!(vec2_other, vec2_center, scalar_degrees)
-    radians = scalar_degrees * DEG2RAD
-    cos = Math.cos(radians)
-    sin = Math.sin(radians)
-
-    @x = vec2_other.x - vec2_center.x
-    @y = vec2_other.x - vec2_center.y
-    @x = (vec2_other.x * cos - vec2_other.y * sin) + vec2_center.x
-    @y = (vec2_other.x * sin + vec2_other.y * cos) + vec2_center.y
+    x = @x * cos - @y * sin + vec2_center.x
+    @y = @x * sin + @y * cos + vec2_center.y
+    @x = x
     self
-  end
+ end
 
   def rotate(vec2_center, scalar_degrees)
-    dup.rotate!(vec2_center, scalar_degrees)
+    dup.rotate_by!(vec2_center, scalar_degrees)
   end
 
   alias + add
@@ -1016,145 +1006,4 @@ class Vec4
   alias * mul
   alias / div
   alias == eq?
-end
-
-class Mat2
-  attr_accessor(:xx, :xy, :yx, :yy)
-
-  def initialize(xx = 0.0, xy = 0.0, yx = 0.0, yy = 0.0)
-    @xx = xx
-    @xy = xy
-    @yx = yx
-    @yy = yy
-  end
-
-  def to_a
-    [[@xx, @xy], [@yx, @yy]]
-  end
-
-  def set!(xx, xy, yx, yy)
-    @xx = xx
-    @xy = xy
-    @yx = yx
-    @yy = yy
-    self
-  end
-
-  def set_from!(mat2_other)
-    @xx = mat2_other.xx
-    @xy = mat2_other.xy
-    @yx = mat2_other.yx
-    @yy = mat2_other.yy
-    self
-  end
-
-  def add!(mat2_rhs)
-    @xx += mat2_rhs.xx
-    @xy += mat2_rhs.xx
-    @yx += mat2_rhs.xx
-    @yy += mat2_rhs.xx
-    self
-  end
-
-  def add_from!(mat2_lhs, mat2_rhs)
-    @xx = mat2_lhs.xx + mat2_rhs.xx
-    @xy = mat2_lhs.xy + mat2_rhs.xy
-    @yx = mat2_lhs.yx + mat2_rhs.yx
-    @yy = mat2_lhs.yy + mat2_rhs.yy
-    self
-  end
-
-  def add(mat2_rhs)
-    dup.add!(mat2_rhs)
-  end
-
-  alias + add
-
-  def sub!(mat2_rhs)
-    @xx -= mat2_rhs.xx
-    @xy -= mat2_rhs.xx
-    @yx -= mat2_rhs.xx
-    @yy -= mat2_rhs.xx
-    self
-  end
-
-  def sub_from!(mat2_lhs, mat2_rhs)
-    @xx = mat2_lhs.xx - mat2_rhs.xx
-    @xy = mat2_lhs.xy - mat2_rhs.xy
-    @yx = mat2_lhs.yx - mat2_rhs.yx
-    @yy = mat2_lhs.yy - mat2_rhs.yy
-    self
-  end
-
-  def sub(mat2_rhs)
-    dup.sub!(mat2_rhs)
-  end
-
-  alias - sub
-  
-  def eql?(other)
-    @xx == other.xx && @xy == other.xy && @yx = other.yx && @yy = other.yy
-  end
-
-  def inverse!
-    determinant = (1.0 / @xx * @yy - @yx * @xy)
-
-    @xx = @yy * determinant
-    @yy = @xx * determinant
-    @xy *= -determinant
-    @yx *= -determinant
-    self
-  end
-
-  def inverse_from!(mat2_other)
-    determinant = (1.0 / mat2_other.xx * mat2_other.yy - mat2_other.yx * mat2_other.xy)
-
-    @xx = mat2_other.xx * determinant
-    @yy = mat2_other.yy * determinant
-    @xy *= -determinant
-    @yx *= -determinant
-    self
-  end
-
-  def inverse
-    dup.inverse!
-  end
-
-  def identity!
-    @xx = 1.0
-    @xy = 0.0
-    @yx = 0.0
-    @yy = 1.0
-    self
-  end
-
-  def identity
-    dup.identity!
-  end
-
-  def transpose!
-    m12 = @xy
-    @xy = @yx
-    @yx = m12
-    self
-  end
-
-  def transpose_from!(mat2_other)
-    @xx = mat2_other.xx
-    @xy = mat2_other.yx
-    @yx = mat2_other.xy
-    @yy = mat2_other.yy
-    self
-  end
-
-  def transpose
-    dup.transpose!
-  end
-
-  def determinant
-    1.0 / @xx * @yy - @yx * @yy
-  end
-
-  IDENTITY = Mat2.new(1.0, 0.0, 0.0, 1.0).freeze
-  ZERO = Mat2.new.freeze
 end
