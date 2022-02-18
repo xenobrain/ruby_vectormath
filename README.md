@@ -15,10 +15,11 @@ The API is as nice and ruby-ish as possible without trading performance.  Lots o
 ## Free!
 Released under public domain / Unlicense so copy/paste away
 
-
 ## Contributors
 Thanks to Lyniat for the matrix code!
 
+
+## Example
 ```ruby
 vec2_a = Vec2.new(1.1, 2.2)
 vec2_b = Vec2.new(3.3, 4.4)
