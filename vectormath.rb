@@ -346,6 +346,11 @@ class Vec2
     dup.rotate_by!(vec2_center, scalar_degrees)
   end
 
+  def zero!
+    @x = 0.0
+    @y = 0.0
+  end
+  
   alias + add
   alias - sub
   alias * mul
@@ -362,6 +367,8 @@ class Vec2
 
   alias magnitude length
   alias magnitude_sq length_sq
+  
+  ZERO = Vec2.new(0.0, 0.0).freeze
 end
 
 class Vec3
@@ -685,7 +692,15 @@ class Vec3
   def rotatation_to_direction(vec3_forwards)
     dup.rotation_to_direction!(vec3_forwards)
   end
+  
+  def zero!
+    @x = 0.0
+    @y = 0.0
+    @z = 0.0
+  end
 
+  ZERO = Vec3.new(0.0, 0.0, 0.0).freeze
+  
   alias + add
   alias - sub
   alias * mul
@@ -1002,6 +1017,15 @@ class Vec4
     dup.normalize!
   end
 
+  def zero!
+    @x = 0.0
+    @y = 0.0
+    @z = 0.0
+    @w = 0.0
+  end
+  
+  ZERO = Vec4.new(0.0, 0.0, 0.0, 0.0).freeze
+  
   alias + add
   alias - sub
   alias * mul
