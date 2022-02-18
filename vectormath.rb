@@ -342,7 +342,7 @@ class Vec2
     self
  end
 
-  def rotate(vec2_center, scalar_degrees)
+  def rotate_by(vec2_center, scalar_degrees)
     dup.rotate_by!(vec2_center, scalar_degrees)
   end
 
