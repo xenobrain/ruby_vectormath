@@ -416,6 +416,24 @@ class Vec3
     dup.add!(vec3_rhs)
   end
 
+  def add_scalar!(scalar_lhs)
+    @x += scalar_lhs
+    @y += scalar_lhs
+    @z += scalar_lhs
+    self
+  end
+
+  def add_scalar_from!(vec3_rhs, scalar_lhs)
+    @x = vec3_rhs.x + scalar_lhs
+    @y = vec3_rhs.y + scalar_lhs
+    @z = vec3_rhs.z + scalar_lhs
+    self
+  end
+
+  def add_scalar(scalar_lhs)
+    dup.add_scalar!(scalar_lhs)
+  end
+
   def sub!(vec3_rhs)
     @x -= vec3_rhs.x
     @y -= vec3_rhs.y
@@ -432,6 +450,24 @@ class Vec3
 
   def sub(vec3_rhs)
     dup.sub!(vec3_rhs)
+  end
+
+  def sub_scalar!(scalar_lhs)
+    @x -= scalar_lhs
+    @y -= scalar_lhs
+    @z -= scalar_lhs
+    self
+  end
+
+  def sub_scalar_from!(vec3_rhs, scalar_lhs)
+    @x = vec3_rhs.x - scalar_lhs
+    @y = vec3_rhs.y - scalar_lhs
+    @z = vec3_rhs.z - scalar_lhs
+    self
+  end
+
+  def sub_scalar(scalar_lhs)
+    dup.sub_scalar!(scalar_lhs)
   end
 
   def scale!(scalar_rhs)
@@ -758,6 +794,27 @@ class Vec4
     dup.add!(vec4_rhs)
   end
 
+  def add_scalar!(scalar_lhs)
+    @x += scalar_lhs
+    @y += scalar_lhs
+    @z += scalar_lhs
+    @w += scalar_lhs
+    self
+  end
+
+  def add_scalar_from!(vec4_rhs, scalar_lhs)
+    @x = vec4_rhs.x + scalar_lhs
+    @y = vec4_rhs.y + scalar_lhs
+    @z = vec4_rhs.z + scalar_lhs
+    @w = vec4_rhs.w + scalar_lhs
+
+    self
+  end
+
+  def add_scalar(scalar_lhs)
+    dup.add_scalar!(scalar_lhs)
+  end
+
   def sub!(vec4_rhs)
     @x -= vec4_rhs.x
     @y -= vec4_rhs.y
@@ -776,6 +833,27 @@ class Vec4
 
   def sub(vec4_rhs)
     dup.sub!(vec4_rhs)
+  end
+
+  def sub_scalar!(scalar_lhs)
+    @x -= scalar_lhs
+    @y -= scalar_lhs
+    @z -= scalar_lhs
+    @w -= scalar_lhs
+    self
+  end
+
+  def sub_scalar_from!(vec4_rhs, scalar_lhs)
+    @x = vec4_rhs.x - scalar_lhs
+    @y = vec4_rhs.y - scalar_lhs
+    @z = vec4_rhs.z - scalar_lhs
+    @w = vec4_rhs.w - scalar_lhs
+
+    self
+  end
+
+  def sub_scalar(scalar_lhs)
+    dup.sub_scalar!(scalar_lhs)
   end
 
   def scale!(scalar_rhs)
