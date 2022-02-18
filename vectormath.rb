@@ -1007,3 +1007,947 @@ class Vec4
   alias / div
   alias == eq?
 end
+
+class Mat2x2
+  attr_accessor(:xx, :xy, :yx, :yy)
+
+  def initialize(xx = 0.0, xy = 0.0, yx = 0.0, yy = 0.0)
+    @xx = xx
+    @xy = xy
+    @yx = yx
+    @yy = yy
+  end
+
+  def to_a
+    [[@xx, @xy], [@yx, @yy]]
+  end
+
+  def set!(xx, xy, yx, yy)
+    @xx = xx
+    @xy = xy
+    @yx = yx
+    @yy = yy
+    self
+  end
+
+  def set_from!(mat2_other)
+    @xx = mat2_other.xx
+    @xy = mat2_other.xy
+    @yx = mat2_other.yx
+    @yy = mat2_other.yy
+    self
+  end
+
+  def add!(mat2_rhs)
+    @xx += mat2_rhs.xx
+    @xy += mat2_rhs.xy
+    @yx += mat2_rhs.yx
+    @yy += mat2_rhs.yy
+    self
+  end
+
+  def add_from!(mat2_lhs, mat2_rhs)
+    @xx = mat2_lhs.xx + mat2_rhs.xx
+    @xy = mat2_lhs.xy + mat2_rhs.xy
+    @yx = mat2_lhs.yx + mat2_rhs.yx
+    @yy = mat2_lhs.yy + mat2_rhs.yy
+    self
+  end
+
+  def add(mat2_rhs)
+    dup.add!(mat2_rhs)
+  end
+
+  alias + add
+
+  def sub!(mat2_rhs)
+    @xx -= mat2_rhs.xx
+    @xy -= mat2_rhs.xy
+    @yx -= mat2_rhs.yx
+    @yy -= mat2_rhs.yy
+    self
+  end
+
+  def sub_from!(mat2_lhs, mat2_rhs)
+    @xx = mat2_lhs.xx - mat2_rhs.xx
+    @xy = mat2_lhs.xy - mat2_rhs.xy
+    @yx = mat2_lhs.yx - mat2_rhs.yx
+    @yy = mat2_lhs.yy - mat2_rhs.yy
+    self
+  end
+
+  def sub(mat2_rhs)
+    dup.sub!(mat2_rhs)
+  end
+
+  alias - sub
+
+  def eql?(other)
+    @xx == other.xx && @xy == other.xy &&
+      @yx == other.yx && @yy == other.yy
+  end
+
+  def inverse!
+    det = 1 / (@xx * @yy - @xy * @yx)
+
+    _xx = @yy * det
+    _xy = -@xy * det
+    _yx = -@yx * det
+    _yy = @xx * det
+    @xx = _xx
+    @xy = _xy
+    @yx = _yx
+    @yy = _yy
+
+    self
+  end
+
+  def inverse_from!(mat2_other)
+    det = 1 / (mat2_other.xx * mat2_other.yy - mat2_other.xy * mat2_other.yx)
+
+    @xx = mat2_other.yy * det
+    @xy = -mat2_other.xy * det
+    @yx = -mat2_other.yx * det
+    @yy = mat2_other.xx * det
+    self
+  end
+
+  def inverse
+    dup.inverse!
+  end
+
+  def identity!
+    @xx = 1.0
+    @xy = 0.0
+    @yx = 0.0
+    @yy = 1.0
+    self
+  end
+
+  def identity
+    dup.identity!
+  end
+
+  def transpose!
+    _xy = @xy
+    @xy = @yx
+    @yx = _xy
+    self
+  end
+
+  def transpose_from!(mat2_other)
+    @xx = mat2_other.xx
+    @xy = mat2_other.yx
+    @yx = mat2_other.xy
+    @yy = mat2_other.yy
+    self
+  end
+
+  def transpose
+    dup.transpose!
+  end
+
+  def determinant
+    @xx * @yy - @xy * @yx
+  end
+
+  IDENTITY = Mat2x2.new(1.0, 0.0, 0.0, 1.0).freeze
+  ZERO = Mat2x2.new.freeze
+end
+
+class Mat3x3
+  attr_accessor(:xx, :xy, :xz, :yx, :yy, :yz, :zx, :zy, :zz)
+
+  def initialize(xx = 0.0, xy = 0.0, xz = 0.0, yx = 0.0, yy = 0.0, yz = 0.0, zx = 0.0, zy = 0.0, zz = 0.0)
+    @xx = xx
+    @xy = xy
+    @xz = xz
+    @yx = yx
+    @yy = yy
+    @yz = yz
+    @zx = zx
+    @zy = zy
+    @zz = zz
+  end
+
+  def to_a
+    [[@xx, @xy, @xz], [@yx, @yy, @yz], [@zx, @zy, @zz]]
+  end
+
+  def set!(xx, xy, xz, yx, yy, yz,zx, zy, zz)
+    @xx = xx
+    @xy = xy
+    @xz = xz
+    @yx = yx
+    @yy = yy
+    @yz = yz
+    @zx = zx
+    @zy = zy
+    @zz = zz
+    self
+  end
+
+  def set_from!(mat3_other)
+    @xx = mat3_other.xx
+    @xy = mat3_other.xy
+    @xz = mat3_other.xz
+    @yx = mat3_other.yx
+    @yy = mat3_other.yy
+    @yz = mat3_other.yz
+    @zx = mat3_other.zx
+    @zy = mat3_other.zy
+    @zz = mat3_other.zz
+    self
+  end
+
+  def add!(mat3_rhs)
+    @xx += mat3_rhs.xx
+    @xy += mat3_rhs.xy
+    @xz += mat3_rhs.xz
+    @yx += mat3_rhs.yx
+    @yy += mat3_rhs.yy
+    @yz += mat3_rhs.yz
+    @zx += mat3_rhs.zx
+    @zy += mat3_rhs.zy
+    @zz += mat3_rhs.zz
+    self
+  end
+
+  def add_from!(mat3_lhs, mat3_rhs)
+    @xx = mat3_lhs.xx + mat3_rhs.xx
+    @xy = mat3_lhs.xy + mat3_rhs.xy
+    @xz = mat3_lhs.xz + mat3_rhs.xz
+    @yx = mat3_lhs.yx + mat3_rhs.yx
+    @yy = mat3_lhs.yy + mat3_rhs.yy
+    @yz = mat3_lhs.yz + mat3_rhs.yz
+    @zx = mat3_lhs.zx + mat3_rhs.zx
+    @zy = mat3_lhs.zy + mat3_rhs.zy
+    @zz = mat3_lhs.zz + mat3_rhs.zz
+    self
+  end
+
+  def add(mat3_rhs)
+    dup.add!(mat3_rhs)
+  end
+
+  alias + add
+
+  def sub!(mat3_rhs)
+    @xx -= mat3_rhs.xx
+    @xy -= mat3_rhs.xy
+    @xz -= mat3_rhs.xz
+    @yx -= mat3_rhs.yx
+    @yy -= mat3_rhs.yy
+    @yz -= mat3_rhs.yz
+    @zx -= mat3_rhs.zx
+    @zy -= mat3_rhs.zy
+    @zz -= mat3_rhs.zz
+    self
+  end
+
+  def sub_from!(mat3_lhs, mat3_rhs)
+    @xx = mat3_lhs.xx - mat3_rhs.xx
+    @xy = mat3_lhs.xy - mat3_rhs.xy
+    @xz = mat3_lhs.xz - mat3_rhs.xz
+    @yx = mat3_lhs.yx - mat3_rhs.yx
+    @yy = mat3_lhs.yy - mat3_rhs.yy
+    @yz = mat3_lhs.yz - mat3_rhs.yz
+    @zx = mat3_lhs.zx - mat3_rhs.zx
+    @zy = mat3_lhs.zy - mat3_rhs.zy
+    @zz = mat3_lhs.zz - mat3_rhs.zz
+    self
+  end
+
+  def sub(mat3_rhs)
+    dup.sub!(mat3_rhs)
+  end
+
+  alias - sub
+
+  def eql?(other)
+    @xx == other.xx && @xy == other.xy && @xz = other.xz &&
+      @yx == other.yx && @yy == other.yy && @yz = other.yz &&
+      @zx == other.zx && @zy == other.zy && @zz = other.zz
+  end
+
+  def inverse!
+    m0 = @yy  * @zz -
+      @zy  * @yz
+
+    m3 = -@yx  * @zz +
+      @zx  * @yz
+
+    m6 = @yx  * @zy -
+      @zx  * @yy
+
+    m1 = -@xy  * @zz +
+      @zy  * @xz
+
+    m4 = @xx  * @zz -
+      @zx  * @xz
+
+    m7 = -@xx  * @zy +
+      @zx  * @xy
+
+    m2 = @xy  * @yz -
+      @yy  * @xz
+
+    m5 = -@xx  * @yz+
+      @yx  * @xz
+
+    m8 = @xx  * @yy -
+      @yx  * @xy
+
+    det = @xx * m0 + @xy * m3 + @xz * m6
+
+    det = 1.0 / det
+
+    @xx = m0 * det
+    @xy = m1 * det
+    @xz = m2 * det
+    @yx = m3 * det
+    @yy = m4 * det
+    @yz = m5 * det
+    @zx = m6 * det
+    @zy = m7 * det
+    @zz = m8 * det
+    self
+  end
+
+  def inverse_from!(mat3_other)
+    m0 = mat3_other.yy  * mat3_other.zz -
+      mat3_other.zy  * mat3_other.yz
+
+    m3 = -mat3_other.yx  * mat3_other.zz +
+      mat3_other.zx  * mat3_other.yz
+
+    m6 = mat3_other.yx  * mat3_other.zy -
+      mat3_other.zx  * mat3_other.yy
+
+    m1 = -mat3_other.xy  * mat3_other.zz +
+      mat3_other.zy  * mat3_other.xz
+
+    m4 = mat3_other.xx  * mat3_other.zz -
+      mat3_other.zx  * mat3_other.xz
+
+    m7 = -mat3_other.xx  * mat3_other.zy +
+      mat3_other.zx  * mat3_other.xy
+
+    m2 = mat3_other.xy  * mat3_other.yz -
+      mat3_other.yy  * mat3_other.xz
+
+    m5 = -mat3_other.xx  * mat3_other.yz +
+      mat3_other.yx  * mat3_other.xz
+
+    m8 = mat3_other.xx  * mat3_other.yy -
+      mat3_other.yx  * mat3_other.xy
+
+    det = mat3_other.xx * m0 + mat3_other.xy * m3 + mat3_other.xz * m6
+
+    det = 1.0 / det
+
+    @xx = m0 * det
+    @xy = m1 * det
+    @xz = m2 * det
+    @yx = m3 * det
+    @yy = m4 * det
+    @yz = m5 * det
+    @zx = m6 * det
+    @zy = m7 * det
+    @zz = m8 * det
+    self
+  end
+
+  def inverse
+    dup.inverse!
+  end
+
+  def identity!
+    @xx = 1.0
+    @xy = 0.0
+    @xz = 0.0
+    @yx = 0.0
+    @yy = 1.0
+    @yz = 0.0
+    @zx = 0.0
+    @zy = 0.0
+    @zz = 1.0
+    self
+  end
+
+  def identity
+    dup.identity!
+  end
+
+  def transpose!
+    _xy = @xy
+    _xz = @xz
+    _yz = @yz
+    @xy = @yx
+    @xz = @zx
+    @yx = _xy
+    @yz = @zy
+    @zx = _xz
+    @zy = _yz
+    self
+  end
+
+  def transpose_from!(mat3_other)
+    @xx = mat3_other.xx
+    @xy = mat3_other.yx
+    @xz = mat3_other.zx
+    @yx = mat3_other.xy
+    @yy = mat3_other.yy
+    @yz = mat3_other.zy
+    @zx = mat3_other.xz
+    @zy = mat3_other.yz
+    @zz = mat3_other.zz
+    self
+  end
+
+  def transpose
+    dup.transpose!
+  end
+
+  def determinant
+    @xx * @yy * @zz + @xy * @yz * @zx + @xz * @yx * @zy - @zx * @yy * @xz - @zy * @yz * @xx - @zz * @yx * @xy
+  end
+
+  IDENTITY = Mat3x3.new(1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0).freeze
+  ZERO = Mat3x3.new.freeze
+end
+
+class Mat4x4
+  attr_accessor(:xx, :xy, :xz, :xw, :yx, :yy, :yz, :yw, :zx, :zy, :zz, :zw, :wx, :wy, :wz, :ww)
+
+  def initialize(xx = 0.0, xy = 0.0, xz = 0.0, xw = 0.0, yx = 0.0, yy = 0.0, yz = 0.0, yw = 0.0,
+                 zx = 0.0, zy = 0.0, zz = 0.0, zw = 0.0, wx = 0.0, wy = 0.0, wz = 0.0, ww = 0.0)
+    @xx = xx
+    @xy = xy
+    @xz = xz
+    @xw = xw
+    @yx = yx
+    @yy = yy
+    @yz = yz
+    @yw = yw
+    @zx = zx
+    @zy = zy
+    @zz = zz
+    @zw = zw
+    @wx = wx
+    @wy = wy
+    @wz = wz
+    @ww = ww
+  end
+
+  def to_a
+    [[@xx, @xy, @xz, @xw], [@yx, @yy, @yz, @yw], [@zx, @zy, @zz, @zw], [@wx, @wy, @wz, @ww]]
+  end
+
+  def set!(xx, xy, xz, xw, yx, yy, yz, yw, zx, zy, zz, zw, wx, wy, wz, ww)
+    @xx = xx
+    @xy = xy
+    @xz = xz
+    @xw = xw
+    @yx = yx
+    @yy = yy
+    @yz = yz
+    @yw = yw
+    @zx = zx
+    @zy = zy
+    @zz = zz
+    @zw = zw
+    @wx = wx
+    @wy = wy
+    @wz = wz
+    @ww = ww
+    self
+  end
+
+  def set_from!(mat4_other)
+    @xx = mat4_other.xx
+    @xy = mat4_other.xy
+    @xz = mat4_other.xz
+    @xw = mat4_other.xw
+    @yx = mat4_other.yx
+    @yy = mat4_other.yy
+    @yz = mat4_other.yz
+    @yw = mat4_other.yw
+    @zx = mat4_other.zx
+    @zy = mat4_other.zy
+    @zz = mat4_other.zz
+    @zw = mat4_other.zw
+    @wx = mat4_other.wx
+    @wy = mat4_other.wy
+    @wz = mat4_other.wz
+    @ww = mat4_other.ww
+    self
+  end
+
+  def add!(mat4_rhs)
+    @xx += mat4_rhs.xx
+    @xy += mat4_rhs.xy
+    @xz += mat4_rhs.xz
+    @xw += mat4_rhs.xw
+    @yx += mat4_rhs.yx
+    @yy += mat4_rhs.yy
+    @yz += mat4_rhs.yz
+    @yw += mat4_rhs.yw
+    @zx += mat4_rhs.zx
+    @zy += mat4_rhs.zy
+    @zz += mat4_rhs.zz
+    @zw += mat4_rhs.zw
+    @wx += mat4_rhs.wx
+    @wy += mat4_rhs.wy
+    @wz += mat4_rhs.wz
+    @ww += mat4_rhs.ww
+    self
+  end
+
+  def add_from!(mat4_lhs, mat4_rhs)
+    @xx = mat4_lhs.xx + mat4_rhs.xx
+    @xy = mat4_lhs.xy + mat4_rhs.xy
+    @xz = mat4_lhs.xz + mat4_rhs.xz
+    @xw = mat4_lhs.xw + mat4_rhs.xw
+    @yx = mat4_lhs.yx + mat4_rhs.yx
+    @yy = mat4_lhs.yy + mat4_rhs.yy
+    @yz = mat4_lhs.yz + mat4_rhs.yz
+    @yw = mat4_lhs.yw + mat4_rhs.yw
+    @zx = mat4_lhs.zx + mat4_rhs.zx
+    @zy = mat4_lhs.zy + mat4_rhs.zy
+    @zz = mat4_lhs.zz + mat4_rhs.zz
+    @zw = mat4_lhs.zw + mat4_rhs.zw
+    @wx = mat4_lhs.wx + mat4_rhs.wx
+    @wy = mat4_lhs.wy + mat4_rhs.wy
+    @wz = mat4_lhs.wz + mat4_rhs.wz
+    @ww = mat4_lhs.ww + mat4_rhs.ww
+    self
+  end
+
+  def add(mat4_rhs)
+    dup.add!(mat4_rhs)
+  end
+
+  alias + add
+
+  def sub!(mat4_rhs)
+    @xx -= mat4_rhs.xx
+    @xy -= mat4_rhs.xy
+    @xz -= mat4_rhs.xz
+    @xw -= mat4_rhs.xw
+    @yx -= mat4_rhs.yx
+    @yy -= mat4_rhs.yy
+    @yz -= mat4_rhs.yz
+    @yw -= mat4_rhs.yw
+    @zx -= mat4_rhs.zx
+    @zy -= mat4_rhs.zy
+    @zz -= mat4_rhs.zz
+    @zw -= mat4_rhs.zw
+    @wx -= mat4_rhs.wx
+    @wy -= mat4_rhs.wy
+    @wz -= mat4_rhs.wz
+    @ww -= mat4_rhs.ww
+    self
+  end
+
+  def sub_from!(mat4_lhs, mat4_rhs)
+    @xx = mat4_lhs.xx - mat4_rhs.xx
+    @xy = mat4_lhs.xy - mat4_rhs.xy
+    @xz = mat4_lhs.xz - mat4_rhs.xz
+    @xw = mat4_lhs.xw - mat4_rhs.xw
+    @yx = mat4_lhs.yx - mat4_rhs.yx
+    @yy = mat4_lhs.yy - mat4_rhs.yy
+    @yz = mat4_lhs.yz - mat4_rhs.yz
+    @yw = mat4_lhs.yw - mat4_rhs.yw
+    @zx = mat4_lhs.zx - mat4_rhs.zx
+    @zy = mat4_lhs.zy - mat4_rhs.zy
+    @zz = mat4_lhs.zz - mat4_rhs.zz
+    @zw = mat4_lhs.zw - mat4_rhs.zw
+    @wx = mat4_lhs.wx - mat4_rhs.wx
+    @wy = mat4_lhs.wy - mat4_rhs.wy
+    @wz = mat4_lhs.wz - mat4_rhs.wz
+    @ww = mat4_lhs.ww - mat4_rhs.ww
+    self
+  end
+
+  def sub(mat4_rhs)
+    dup.sub!(mat4_rhs)
+  end
+
+  alias - sub
+
+  def eql?(other)
+    @xx == other.xx && @xy == other.xy && @xz = other.xz && @xw = other.xw &&
+      @yx == other.yx && @yy == other.yy && @yz = other.yz && @yw = other.yw &&
+      @zx == other.zx && @zy == other.zy && @zz = other.zz && @zw = other.zw &&
+      @wx == other.wx && @wy == other.wy && @wz = other.wz && @ww = other.ww
+  end
+
+  def inverse!
+    m0 = @yy  * @zz * @ww -
+      @yy  * @zw * @wz -
+      @zy  * @yz  * @ww +
+      @zy  * @yw  * @wz +
+      @wy * @yz  * @zw -
+      @wy * @yw  * @zz
+
+    m4 = -@yx  * @zz * @ww +
+      @yx  * @zw * @wz +
+      @zx  * @yz  * @ww -
+      @zx  * @yw  * @wz -
+      @wx * @yz  * @zw +
+      @wx * @yw  * @zz
+
+    m8 = @yx  * @zy * @ww -
+      @yx  * @zw * @wy -
+      @zx  * @yy * @ww +
+      @zx  * @yw * @wy +
+      @wx * @yy * @zw -
+      @wx * @yw * @zy
+
+    m12 = -@yx  * @zy * @wz +
+      @yx  * @zz * @wy +
+      @zx  * @yy * @wz -
+      @zx  * @yz * @wy -
+      @wx * @yy * @zz +
+      @wx * @yz * @zy
+
+    m1 = -@xy  * @zz * @ww +
+      @xy  * @zw * @wz +
+      @zy  * @xz * @ww -
+      @zy  * @xw * @wz -
+      @wy * @xz * @zw +
+      @wy * @xw * @zz
+
+    m5 = @xx  * @zz * @ww -
+      @xx  * @zw * @wz -
+      @zx  * @xz * @ww +
+      @zx  * @xw * @wz +
+      @wx * @xz * @zw -
+      @wx * @xw * @zz
+
+    m9 = -@xx  * @zy * @ww +
+      @xx  * @zw * @wy +
+      @zx  * @xy * @ww -
+      @zx  * @xw * @wy -
+      @wx * @xy * @zw +
+      @wx * @xw * @zy
+
+    m13 = @xx  * @zy * @wz -
+      @xx  * @zz * @wy -
+      @zx  * @xy * @wz +
+      @zx  * @xz * @wy +
+      @wx * @xy * @zz -
+      @wx * @xz * @zy
+
+    m2 = @xy  * @yz * @ww -
+      @xy  * @yw * @wz -
+      @yy  * @xz * @ww +
+      @yy  * @xw * @wz +
+      @wy * @xz * @yw -
+      @wy * @xw * @yz
+
+    m6 = -@xx  * @yz * @ww +
+      @xx  * @yw * @wz +
+      @yx  * @xz * @ww -
+      @yx  * @xw * @wz -
+      @wx * @xz * @yw +
+      @wx * @xw * @yz
+
+    m10 = @xx  * @yy * @ww -
+      @xx  * @yw * @wy -
+      @yx  * @xy * @ww +
+      @yx  * @xw * @wy +
+      @wx * @xy * @yw -
+      @wx * @xw * @yy
+
+    m14 = -@xx  * @yy * @wz +
+      @xx  * @yz * @wy +
+      @yx  * @xy * @wz -
+      @yx  * @xz * @wy -
+      @wx * @xy * @yz +
+      @wx * @xz * @yy
+
+    m3 = -@xy * @yz * @zw +
+      @xy * @yw * @zz +
+      @yy * @xz * @zw -
+      @yy * @xw * @zz -
+      @zy * @xz * @yw +
+      @zy * @xw * @yz
+
+    m7 = @xx * @yz * @zw -
+      @xx * @yw * @zz -
+      @yx * @xz * @zw +
+      @yx * @xw * @zz +
+      @zx * @xz * @yw -
+      @zx * @xw * @yz
+
+    m11 = -@xx * @yy * @zw +
+      @xx * @yw * @zy +
+      @yx * @xy * @zw -
+      @yx * @xw * @zy -
+      @zx * @xy * @yw +
+      @zx * @xw * @yy
+
+    m15 = @xx * @yy * @zz -
+      @xx * @yz * @zy -
+      @yx * @xy * @zz +
+      @yx * @xz * @zy +
+      @zx * @xy * @yz -
+      @zx * @xz * @yy
+
+    det = @xx * m0 + @xy * m4 + @xz * m8 + @xw * m12
+
+    det = 1.0 / det
+
+    @xx = m0 * det
+    @xy = m1 * det
+    @xz = m2 * det
+    @xw = m3 * det
+    @yx = m4 * det
+    @yy = m5 * det
+    @yz = m6 * det
+    @yw = m7 * det
+    @zx = m8 * det
+    @zy = m9 * det
+    @zz = m10 * det
+    @zw = m11 * det
+    @wx = m12 * det
+    @wy = m13 * det
+    @wz = m14 * det
+    @ww = m15 * det
+    self
+  end
+
+  def inverse_from!(mat4_other)
+    m0 = mat4_other.yy  * mat4_other.zz * mat4_other.ww -
+      mat4_other.yy  * mat4_other.zw * mat4_other.wz -
+      mat4_other.zy  * mat4_other.yz  * mat4_other.ww +
+      mat4_other.zy  * mat4_other.yw  * mat4_other.wz +
+      mat4_other.wy * mat4_other.yz  * mat4_other.zw -
+      mat4_other.wy * mat4_other.yw  * mat4_other.zz
+
+    m4 = -mat4_other.yx  * mat4_other.zz * mat4_other.ww +
+      mat4_other.yx  * mat4_other.zw * mat4_other.wz +
+      mat4_other.zx  * mat4_other.yz  * mat4_other.ww -
+      mat4_other.zx  * mat4_other.yw  * mat4_other.wz -
+      mat4_other.wx * mat4_other.yz  * mat4_other.zw +
+      mat4_other.wx * mat4_other.yw  * mat4_other.zz
+
+    m8 = mat4_other.yx  * mat4_other.zy * mat4_other.ww -
+      mat4_other.yx  * mat4_other.zw * mat4_other.wy -
+      mat4_other.zx  * mat4_other.yy * mat4_other.ww +
+      mat4_other.zx  * mat4_other.yw * mat4_other.wy +
+      mat4_other.wx * mat4_other.yy * mat4_other.zw -
+      mat4_other.wx * mat4_other.yw * mat4_other.zy
+
+    m12 = -mat4_other.yx  * mat4_other.zy * mat4_other.wz +
+      mat4_other.yx  * mat4_other.zz * mat4_other.wy +
+      mat4_other.zx  * mat4_other.yy * mat4_other.wz -
+      mat4_other.zx  * mat4_other.yz * mat4_other.wy -
+      mat4_other.wx * mat4_other.yy * mat4_other.zz +
+      mat4_other.wx * mat4_other.yz * mat4_other.zy
+
+    m1 = -mat4_other.xy  * mat4_other.zz * mat4_other.ww +
+      mat4_other.xy  * mat4_other.zw * mat4_other.wz +
+      mat4_other.zy  * mat4_other.xz * mat4_other.ww -
+      mat4_other.zy  * mat4_other.xw * mat4_other.wz -
+      mat4_other.wy * mat4_other.xz * mat4_other.zw +
+      mat4_other.wy * mat4_other.xw * mat4_other.zz
+
+    m5 = mat4_other.xx  * mat4_other.zz * mat4_other.ww -
+      mat4_other.xx  * mat4_other.zw * mat4_other.wz -
+      mat4_other.zx  * mat4_other.xz * mat4_other.ww +
+      mat4_other.zx  * mat4_other.xw * mat4_other.wz +
+      mat4_other.wx * mat4_other.xz * mat4_other.zw -
+      mat4_other.wx * mat4_other.xw * mat4_other.zz
+
+    m9 = -mat4_other.xx  * mat4_other.zy * mat4_other.ww +
+      mat4_other.xx  * mat4_other.zw * mat4_other.wy +
+      mat4_other.zx  * mat4_other.xy * mat4_other.ww -
+      mat4_other.zx  * mat4_other.xw * mat4_other.wy -
+      mat4_other.wx * mat4_other.xy * mat4_other.zw +
+      mat4_other.wx * mat4_other.xw * mat4_other.zy
+
+    m13 = mat4_other.xx  * mat4_other.zy * mat4_other.wz -
+      mat4_other.xx  * mat4_other.zz * mat4_other.wy -
+      mat4_other.zx  * mat4_other.xy * mat4_other.wz +
+      mat4_other.zx  * mat4_other.xz * mat4_other.wy +
+      mat4_other.wx * mat4_other.xy * mat4_other.zz -
+      mat4_other.wx * mat4_other.xz * mat4_other.zy
+
+    m2 = mat4_other.xy  * mat4_other.yz * mat4_other.ww -
+      mat4_other.xy  * mat4_other.yw * mat4_other.wz -
+      mat4_other.yy  * mat4_other.xz * mat4_other.ww +
+      mat4_other.yy  * mat4_other.xw * mat4_other.wz +
+      mat4_other.wy * mat4_other.xz * mat4_other.yw -
+      mat4_other.wy * mat4_other.xw * mat4_other.yz
+
+    m6 = -mat4_other.xx  * mat4_other.yz * mat4_other.ww +
+      mat4_other.xx  * mat4_other.yw * mat4_other.wz +
+      mat4_other.yx  * mat4_other.xz * mat4_other.ww -
+      mat4_other.yx  * mat4_other.xw * mat4_other.wz -
+      mat4_other.wx * mat4_other.xz * mat4_other.yw +
+      mat4_other.wx * mat4_other.xw * mat4_other.yz
+
+    m10 = mat4_other.xx  * mat4_other.yy * mat4_other.ww -
+      mat4_other.xx  * mat4_other.yw * mat4_other.wy -
+      mat4_other.yx  * mat4_other.xy * mat4_other.ww +
+      mat4_other.yx  * mat4_other.xw * mat4_other.wy +
+      mat4_other.wx * mat4_other.xy * mat4_other.yw -
+      mat4_other.wx * mat4_other.xw * mat4_other.yy
+
+    m14 = -mat4_other.xx  * mat4_other.yy * mat4_other.wz +
+      mat4_other.xx  * mat4_other.yz * mat4_other.wy +
+      mat4_other.yx  * mat4_other.xy * mat4_other.wz -
+      mat4_other.yx  * mat4_other.xz * mat4_other.wy -
+      mat4_other.wx * mat4_other.xy * mat4_other.yz +
+      mat4_other.wx * mat4_other.xz * mat4_other.yy
+
+    m3 = -mat4_other.xy * mat4_other.yz * mat4_other.zw +
+      mat4_other.xy * mat4_other.yw * mat4_other.zz +
+      mat4_other.yy * mat4_other.xz * mat4_other.zw -
+      mat4_other.yy * mat4_other.xw * mat4_other.zz -
+      mat4_other.zy * mat4_other.xz * mat4_other.yw +
+      mat4_other.zy * mat4_other.xw * mat4_other.yz
+
+    m7 = mat4_other.xx * mat4_other.yz * mat4_other.zw -
+      mat4_other.xx * mat4_other.yw * mat4_other.zz -
+      mat4_other.yx * mat4_other.xz * mat4_other.zw +
+      mat4_other.yx * mat4_other.xw * mat4_other.zz +
+      mat4_other.zx * mat4_other.xz * mat4_other.yw -
+      mat4_other.zx * mat4_other.xw * mat4_other.yz
+
+    m11 = -mat4_other.xx * mat4_other.yy * mat4_other.zw +
+      mat4_other.xx * mat4_other.yw * mat4_other.zy +
+      mat4_other.yx * mat4_other.xy * mat4_other.zw -
+      mat4_other.yx * mat4_other.xw * mat4_other.zy -
+      mat4_other.zx * mat4_other.xy * mat4_other.yw +
+      mat4_other.zx * mat4_other.xw * mat4_other.yy
+
+    m15 = mat4_other.xx * mat4_other.yy * mat4_other.zz -
+      mat4_other.xx * mat4_other.yz * mat4_other.zy -
+      mat4_other.yx * mat4_other.xy * mat4_other.zz +
+      mat4_other.yx * mat4_other.xz * mat4_other.zy +
+      mat4_other.zx * mat4_other.xy * mat4_other.yz -
+      mat4_other.zx * mat4_other.xz * mat4_other.yy
+
+    det = mat4_other.xx * m0 + mat4_other.xy * m4 + mat4_other.xz * m8 + mat4_other.xw * m12
+
+    det = 1.0 / det
+
+    @xx = m0 * det
+    @xy = m1 * det
+    @xz = m2 * det
+    @xw = m3 * det
+    @yx = m4 * det
+    @yy = m5 * det
+    @yz = m6 * det
+    @yw = m7 * det
+    @zx = m8 * det
+    @zy = m9 * det
+    @zz = m10 * det
+    @zw = m11 * det
+    @wx = m12 * det
+    @wy = m13 * det
+    @wz = m14 * det
+    @ww = m15 * det
+    self
+  end
+
+  def inverse
+    dup.inverse!
+  end
+
+  def identity!
+    @xx = 1.0
+    @xy = 0.0
+    @xz = 0.0
+    @xw = 0.0
+    @yx = 0.0
+    @yy = 1.0
+    @yz = 0.0
+    @yw = 0.0
+    @zx = 0.0
+    @zy = 0.0
+    @zz = 1.0
+    @zw = 0.0
+    @wx = 0.0
+    @wy = 0.0
+    @wz = 0.0
+    @ww = 1.0
+    self
+  end
+
+  def identity
+    dup.identity!
+  end
+
+  def transpose!
+    _xy = @xy
+    _xz = @xz
+    _xw = @xw
+    _yz = @yz
+    _yw = @yw
+    _zw = @zw
+    @xy = @yx
+    @xz = @zx
+    @xw = @wx
+    @yx = _xy
+    @yz = @zy
+    @yw = @wy
+    @zx = _xz
+    @zy = _yz
+    @zw = @wz
+    @wx = _xw
+    @wy = _yw
+    @wz = _zw
+    self
+  end
+
+  def transpose_from!(mat4_other)
+    @xx = mat4_other.xx
+    @xy = mat4_other.yx
+    @xz = mat4_other.zx
+    @xw = mat4_other.wx
+    @yx = mat4_other.xy
+    @yy = mat4_other.yy
+    @yz = mat4_other.zy
+    @yw = mat4_other.wy
+    @zx = mat4_other.xz
+    @zy = mat4_other.yz
+    @zz = mat4_other.zz
+    @zw = mat4_other.wz
+    @wx = mat4_other.xw
+    @wy = mat4_other.yw
+    @wz = mat4_other.zw
+    @ww = mat4_other.ww
+    self
+  end
+
+  def transpose
+    dup.transpose!
+  end
+
+  def determinant
+    m00 = @xx * @yy - @xy * @yx
+    m01 = @xx * @yz - @xz * @yx
+    m02 = @xx * @yw - @xw * @yx
+    m03 = @xy * @yz - @xz * @yy
+    m04 = @xy * @yw - @xw * @yy
+    m05 = @xz * @yw - @xw * @yz
+    m06 = @zx * @wy - @zy * @wx
+    m07 = @zx * @wz - @zz * @wx
+    m08 = @zx * @ww - @zw * @wx
+    m09 = @zy * @wz - @zz * @wy
+    m10 = @zy * @ww - @zw * @wy
+    m11 = @zz * @ww - @zw * @wz
+
+    m00 * m11 - m01 * m10 + m02 * m09 + m03 * m08 - m04 * m07 + m05 * m06
+  end
+
+  IDENTITY = Mat4x4.new(1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
+                        0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0).freeze
+  ZERO = Mat4x4.new.freeze
+
+end
