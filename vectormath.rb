@@ -1,4 +1,5 @@
 DEG2RAD = Math::PI / 180.0
+RAD2DEG = 360.0 / (Math::PI * 2.0);
 
 class Vec2
   attr_accessor(:x, :y)
