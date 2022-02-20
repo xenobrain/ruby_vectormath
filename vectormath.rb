@@ -896,6 +896,26 @@ class Vec4
     dup.mul!(vec4_rhs)
   end
 
+  def mul_mat!(mat4_rhs)
+    _x = mat4_rhs.xx * @x + mat4_rhs.xy * @y + mat4_rhs.xz * @z + mat4_rhs.xw * @w
+    _y = mat4_rhs.yx * @x + mat4_rhs.yy * @y + mat4_rhs.yz * @z + mat4_rhs.yw * @w
+    _z = mat4_rhs.zx * @x + mat4_rhs.zy * @y + mat4_rhs.zz * @z + mat4_rhs.zw * @w
+    _w = mat4_rhs.wx * @x + mat4_rhs.wy * @y + mat4_rhs.wz * @z + mat4_rhs.ww * @w
+    @x = _x
+    @y = _y
+    @z = _z
+    @w = _w
+    self
+  end
+
+  def mul_mat_from!(vec4_lhs, mat4_rhs)
+    @x = mat4_rhs.xx * vec4_lhs.x + mat4_rhs.xy * vec4_lhs.y + mat4_rhs.xz * vec4_lhs.z + mat4_rhs.xw * vec4_lhs.w
+    @y = mat4_rhs.yx * vec4_lhs.x + mat4_rhs.yy * vec4_lhs.y + mat4_rhs.yz * vec4_lhs.z + mat4_rhs.yw * vec4_lhs.w
+    @z = mat4_rhs.zx * vec4_lhs.x + mat4_rhs.zy * vec4_lhs.y + mat4_rhs.zz * vec4_lhs.z + mat4_rhs.zw * vec4_lhs.w
+    @w = mat4_rhs.wx * vec4_lhs.x + mat4_rhs.wy * vec4_lhs.y + mat4_rhs.wz * vec4_lhs.z + mat4_rhs.ww * vec4_lhs.w
+    self
+  end
+
   def div!(vec4_rhs)
     @x /= vec4_rhs.x
     @y /= vec4_rhs.y
@@ -1678,6 +1698,69 @@ class Mat4x4
   end
 
   alias - sub
+
+  def mul!(mat4_rhs)
+    _xx = @xx * mat4_rhs.xx + @xy * mat4_rhs.yx + @xz * mat4_rhs.zx + @xw * mat4_rhs.wx
+    _xy = @xx * mat4_rhs.xy + @xy * mat4_rhs.yy + @xz * mat4_rhs.zy + @xw * mat4_rhs.wy
+    _xz = @xx * mat4_rhs.xz + @xy * mat4_rhs.yz + @xz * mat4_rhs.zz + @xw * mat4_rhs.wz
+    _xw = @xx * mat4_rhs.xw + @xy * mat4_rhs.yw + @xz * mat4_rhs.zw + @xw * mat4_rhs.ww
+
+    _yx = @yx * mat4_rhs.xx + @yy * mat4_rhs.yx + @yz * mat4_rhs.zx + @yw * mat4_rhs.wx
+    _yy = @yx * mat4_rhs.xy + @yy * mat4_rhs.yy + @yz * mat4_rhs.zy + @yw * mat4_rhs.wy
+    _yz = @yx * mat4_rhs.xz + @yy * mat4_rhs.yz + @yz * mat4_rhs.zz + @yw * mat4_rhs.wz
+    _yw = @yx * mat4_rhs.xw + @yy * mat4_rhs.yw + @yz * mat4_rhs.zw + @yw * mat4_rhs.ww
+
+    _zx = @zx * mat4_rhs.xx + @zy * mat4_rhs.yx + @zz * mat4_rhs.zx + @zw * mat4_rhs.wx
+    _zy = @zx * mat4_rhs.xy + @zy * mat4_rhs.yy + @zz * mat4_rhs.zy + @zw * mat4_rhs.wy
+    _zz = @zx * mat4_rhs.xz + @zy * mat4_rhs.yz + @zz * mat4_rhs.zz + @zw * mat4_rhs.wz
+    _zw = @zx * mat4_rhs.xw + @zy * mat4_rhs.yw + @zz * mat4_rhs.zw + @zw * mat4_rhs.ww
+
+    _wx = @wx * mat4_rhs.xx + @wy * mat4_rhs.yx + @wz * mat4_rhs.zx + @ww * mat4_rhs.wx
+    _wy = @wx * mat4_rhs.xy + @wy * mat4_rhs.yy + @wz * mat4_rhs.zy + @ww * mat4_rhs.wy
+    _wz = @wx * mat4_rhs.xz + @wy * mat4_rhs.yz + @wz * mat4_rhs.zz + @ww * mat4_rhs.wz
+    _ww = @wx * mat4_rhs.xw + @wy * mat4_rhs.yw + @wz * mat4_rhs.zw + @ww * mat4_rhs.ww
+
+    @xx = _xx
+    @xy = _xy
+    @xz = _xz
+    @xw = _xw
+    @yx = _yx
+    @yy = _yy
+    @yz = _yz
+    @yw = _yw
+    @zx = _zx
+    @zy = _zy
+    @zz = _zz
+    @zw = _zw
+    @wx = _wx
+    @wy = _wy
+    @wz = _wz
+    @ww = _ww
+    self
+  end
+
+  def mul_from!(mat4_lhs, mat4_rhs)
+    @xx = mat4_lhs.xx * mat4_rhs.xx + mat4_lhs.xy * mat4_rhs.yx + mat4_lhs.xz * mat4_rhs.zx + mat4_lhs.xw * mat4_rhs.wx
+    @xy = mat4_lhs.xx * mat4_rhs.xy + mat4_lhs.xy * mat4_rhs.yy + mat4_lhs.xz * mat4_rhs.zy + mat4_lhs.xw * mat4_rhs.wy
+    @xz = mat4_lhs.xx * mat4_rhs.xz + mat4_lhs.xy * mat4_rhs.yz + mat4_lhs.xz * mat4_rhs.zz + mat4_lhs.xw * mat4_rhs.wz
+    @xw = mat4_lhs.xx * mat4_rhs.xw + mat4_lhs.xy * mat4_rhs.yw + mat4_lhs.xz * mat4_rhs.zw + mat4_lhs.xw * mat4_rhs.ww
+
+    @yx = mat4_lhs.yx * mat4_rhs.xx + mat4_lhs.yy * mat4_rhs.yx + mat4_lhs.yz * mat4_rhs.zx + mat4_lhs.yw * mat4_rhs.wx
+    @yy = mat4_lhs.yx * mat4_rhs.xy + mat4_lhs.yy * mat4_rhs.yy + mat4_lhs.yz * mat4_rhs.zy + mat4_lhs.yw * mat4_rhs.wy
+    @yz = mat4_lhs.yx * mat4_rhs.xz + mat4_lhs.yy * mat4_rhs.yz + mat4_lhs.yz * mat4_rhs.zz + mat4_lhs.yw * mat4_rhs.wz
+    @yw = mat4_lhs.yx * mat4_rhs.xw + mat4_lhs.yy * mat4_rhs.yw + mat4_lhs.yz * mat4_rhs.zw + mat4_lhs.yw * mat4_rhs.ww
+
+    @zx = mat4_lhs.zx * mat4_rhs.xx + mat4_lhs.zy * mat4_rhs.yx + mat4_lhs.zz * mat4_rhs.zx + mat4_lhs.zw * mat4_rhs.wx
+    @zy = mat4_lhs.zx * mat4_rhs.xy + mat4_lhs.zy * mat4_rhs.yy + mat4_lhs.zz * mat4_rhs.zy + mat4_lhs.zw * mat4_rhs.wy
+    @zz = mat4_lhs.zx * mat4_rhs.xz + mat4_lhs.zy * mat4_rhs.yz + mat4_lhs.zz * mat4_rhs.zz + mat4_lhs.zw * mat4_rhs.wz
+    @zw = mat4_lhs.zx * mat4_rhs.xw + mat4_lhs.zy * mat4_rhs.yw + mat4_lhs.zz * mat4_rhs.zw + mat4_lhs.zw * mat4_rhs.ww
+
+    @wx = mat4_lhs.wx * mat4_rhs.xx + mat4_lhs.wy * mat4_rhs.yx + mat4_lhs.wz * mat4_rhs.zx + mat4_lhs.ww * mat4_rhs.wx
+    @wy = mat4_lhs.wx * mat4_rhs.xy + mat4_lhs.wy * mat4_rhs.yy + mat4_lhs.wz * mat4_rhs.zy + mat4_lhs.ww * mat4_rhs.wy
+    @wz = mat4_lhs.wx * mat4_rhs.xz + mat4_lhs.wy * mat4_rhs.yz + mat4_lhs.wz * mat4_rhs.zz + mat4_lhs.ww * mat4_rhs.wz
+    @ww = mat4_lhs.wx * mat4_rhs.xw + mat4_lhs.wy * mat4_rhs.yw + mat4_lhs.wz * mat4_rhs.zw + mat4_lhs.ww * mat4_rhs.ww
+    self
+  end
 
   def eql?(other)
     @xx == other.xx && @xy == other.xy && @xz = other.xz && @xw = other.xw &&
