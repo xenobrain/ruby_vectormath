@@ -18,6 +18,7 @@ Released under public domain / Unlicense so copy/paste away
 ## Contributors
 Thanks to Lyniat for the matrix code!
 
+[![Coverity Scan Build Status](https://scan.coverity.com/projects/24654/badge.svg)](https://scan.coverity.com/projects/xenobrain-ruby_vectormath)
 
 ## Example
 ```ruby
