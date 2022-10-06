@@ -2,6 +2,8 @@
 
 Vector Math library written in pure Ruby
 
+Vec2 and Mat2x2 are in 'vectormath_2d.rb'.  Vec3, Vec4, Mat3x3, Mat4x4 are in 'vectormath_3d.rb'
+
 It's designed to be:
 
 ## Fast!
