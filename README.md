@@ -27,12 +27,12 @@ Thanks to Lyniat for the matrix code!
 vec2_a = Vec2.new(1.1, 2.2)
 vec2_b = Vec2.new(3.3, 4.4)
 
-# mutates vec2_a
+# vec2_a is now (4.4, 6.6)
 vec2_a.add!(vec2_b)
 
-# shallow copy of vec2_a
+# vec2_result is now (4.4, 6.6) but memory was allocated for it, which is slower than using add_from!
 vec2_result = vec2_a + vec2_b
 
-# sets vec2_result to the result
+# sets the previously declared vec2_result to (4.4, 6.6) without changing vec2_a or vec2_b.  Much faster!
 vec2_result.add_from!(vec2_a, vec2_b)
 ```
