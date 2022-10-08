@@ -24,11 +24,13 @@ Thanks to Lyniat for the matrix code!
 
 ## Example
 
-# Given
+Given the following vectors
 ```ruby
 vec2_a = Vec2.new(1.1, 2.2)
 vec2_b = Vec2.new(3.3, 4.4)
 vec2_c = Vec2.new(4.4, 5.5)
+
+@vec2_result = Vec2.new # initialized to 0.0, 0.0
 ```
 
 Mutating methods are suffixed with '!'
@@ -40,7 +42,7 @@ vec2_a.add!(vec2_b)
 Operators are non mutating
 ```ruby
 # vec2_result is now (4.4, 6.6) but memory was allocated for it, which is slow
-vec2_result = vec2_a + vec2_b
+@vec2_result = vec2_a + vec2_b
 ```
 
 *_from! methods are mutating and meant to be used on predeclared temporary variables
