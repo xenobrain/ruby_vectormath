@@ -23,20 +23,34 @@ Thanks to Lyniat for the matrix code!
 [![Coverity Scan Build Status](https://scan.coverity.com/projects/24654/badge.svg)](https://scan.coverity.com/projects/xenobrain-ruby_vectormath)
 
 ## Example
+
+# Given
 ```ruby
 vec2_a = Vec2.new(1.1, 2.2)
 vec2_b = Vec2.new(3.3, 4.4)
+vec2_c = Vec2.new(4.4, 5.5)
+```
 
+Mutating methods are suffixed with '!'
+```ruby
 # vec2_a is now (4.4, 6.6)
 vec2_a.add!(vec2_b)
+```
 
+Operators are non mutating
+```ruby
 # vec2_result is now (4.4, 6.6) but memory was allocated for it, which is slow
 vec2_result = vec2_a + vec2_b
+```
 
+*_from! methods are mutating and meant to be used on predeclared temporary variables
+```ruby
 # sets a previously declared vec2_result to (4.4, 6.6) without changing vec2_a or vec2_b.  Much faster!
 @vec2_result.add_from!(vec2_a, vec2_b)
+```
 
-# methods can be chained
+Methods can be chained
+```ruby
 @vec2_result.add_from!(vec2_a, vec2_b)
             .normalize!
             .mul!(vec2_c)
