@@ -274,20 +274,6 @@ class Vec3
     dup.lerp!(vec3_rhs, scalar_t)
   end
 
-  def slerp!(vec3_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp_from!(vec3_lhs, vec3_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp(vec3_rhs, scalar_t)
-    dup.slerp!(vec3_rhs, scalar_t)
-  end
-
   def length_sq
     @x * @x + @y * @y + @z * @z
   end
@@ -672,20 +658,6 @@ class Vec4
 
   def lerp(vec4_rhs, scalar_t)
     dup.lerp!(vec4_rhs, scalar_t)
-  end
-
-  def slerp!(vec4_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp_from!(vec4_lhs, vec4_rhs, scalar_t)
-    raise 'not implemented'
-    self
-  end
-
-  def slerp(vec4_rhs, scalar_t)
-    dup.slerp!(vec4_rhs, scalar_t)
   end
 
   def length_sq
