@@ -28,7 +28,7 @@ Given the following vectors
 ```ruby
 vec2_a = Vec2.new(1.1, 2.2)
 vec2_b = Vec2.new(3.3, 4.4)
-vec2_c = Vec2.new(4.4, 5.5)
+vec2_c = Vec2.new(5.5, 6.6)
 
 @vec2_result = Vec2.new # initialized to 0.0, 0.0
 ```
