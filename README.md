@@ -41,8 +41,8 @@ vec2_a.add!(vec2_b)
 
 Operators are non-mutating
 ```ruby
-# vec2_result is now (4.4, 6.6) but memory was allocated for for the copy, which is slow
-@vec2_result = vec2_a + vec2_b
+# result is a new Vec2 with values of (4.4, 6.6) but memory was allocated for for the copy, which is slow
+result = vec2_a + vec2_b
 ```
 
 *_from! methods are mutating and meant to be used on previously declared (temporary) variables
