@@ -39,13 +39,13 @@ Mutating methods are suffixed with '!'
 vec2_a.add!(vec2_b)
 ```
 
-Operators are non mutating
+Operators are non-mutating
 ```ruby
-# vec2_result is now (4.4, 6.6) but memory was allocated for it, which is slow
+# vec2_result is now (4.4, 6.6) but memory was allocated for for the copy, which is slow
 @vec2_result = vec2_a + vec2_b
 ```
 
-*_from! methods are mutating and meant to be used on predeclared temporary variables
+*_from! methods are mutating and meant to be used on previously declared (temporary) variables
 ```ruby
 # sets a previously declared vec2_result to (4.4, 6.6) without changing vec2_a or vec2_b.  Much faster!
 @vec2_result.add_from!(vec2_a, vec2_b)
