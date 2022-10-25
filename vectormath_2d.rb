@@ -282,6 +282,73 @@ class Vec2
     dup.lerp!(vec2_rhs, scalar_t)
   end
 
+  def slerp!(vec2_rhs, scalar_t)
+    lhs_x = @x
+    lhs_y = @y
+    rhs_x = vec2_rhs.x
+    rhs_y = vec2_rhs.y
+    
+    # Normalize the vectors
+    length_sq = lhs_x * lhs_x + lhs_y * lhs_y
+    rhs_length_sq = rhs_x * rhs_x + rhs_y * rhs_y
+
+    return self if length_sq.zero? || rhs_length_sq.zero?
+
+    inverse_length = 1.0 / Math.sqrt(length_sq)
+    rhs_inverse_length = 1.0 / Math.sqrt(rhs_length_sq)
+
+    lhs_x *= inverse_length
+    lhs_y *= inverse_length
+    rhs_x *= rhs_inverse_length
+    rhs_y *= rhs_inverse_length
+
+    omega = Math.acos(lhs_x * rhs_x + lhs_y * rhs_y)
+    inverse_denominator = 1.0 / Math.sin(omega)
+    
+    a = Math.sin((1.0 - scalar_t) * omega) * inverse_denominator
+    b = Math.sin(scalar_t * omega) * inverse_denominator
+
+    @x = @x * a + vec2_rhs.x * b
+    @y = @y * a + vec2_rhs.y * b
+
+    self
+  end
+
+  def slerp_from!(vec2_lhs, vec2_rhs, scalar_t)
+    lhs_x = vec2_lhs.x
+    lhs_y = vec2_lhs.y
+    rhs_x = vec2_rhs.x
+    rhs_y = vec2_rhs.y
+    
+    # Normalize the vectors
+    length_sq = lhs_x * lhs_x + lhs_y * lhs_y
+    rhs_length_sq = rhs_x * rhs_x + rhs_y * rhs_y
+
+    return self if length_sq.zero? || rhs_length_sq.zero?
+
+    inverse_length = 1.0 / Math.sqrt(length_sq)
+    rhs_inverse_length = 1.0 / Math.sqrt(rhs_length_sq)
+
+    lhs_x *= inverse_length
+    lhs_y *= inverse_length
+    rhs_x *= rhs_inverse_length
+    rhs_y *= rhs_inverse_length
+
+    omega = Math.acos(lhs_x * rhs_x + lhs_y * rhs_y)
+    inverse_denominator = 1.0 / Math.sin(omega)
+    
+    a = Math.sin((1.0 - scalar_t) * omega) * inverse_denominator
+    b = Math.sin(scalar_t * omega) * inverse_denominator
+
+    @x = vec2_lhs.x * a + vec2_rhs.x * b
+    @y = vec2_lhs.y * a + vec2_rhs.y * b
+    self
+  end
+
+  def slerp(vec2_rhs, scalar_t)
+    dup.slerp(vec2_rhs, scalar_t)
+  end
+
   def length_sq
     @x * @x + @y * @y
   end
