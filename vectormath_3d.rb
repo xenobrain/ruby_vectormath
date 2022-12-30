@@ -287,11 +287,17 @@ class Vec3
   alias magnitude length
 
   def distance_sq(vec3_rhs)
-    (@x * @x + @y * @y + @z * @z) - (vec3_rhs.x * vec3_rhs.x + vec3_rhs.y * vec3_rhs.y + vec3_rhs.z * vec3_rhs.z)
+    dx = @x - vec3_rhs.x
+    dy = @y - vec3_rhs.y
+    dz = @z - vec3_rhs.z
+    dx * dx + dy * dy + dz * dz
   end
 
   def distance(vec3_rhs)
-    Math.sqrt(@x * @x + @y * @y + @z * @z) - Math.sqrt(vec3_rhs.x * vec3_rhs.x + vec3_rhs.y * vec3_rhs.y + vec3_rhs.z * vec3_rhs.z)
+    dx = @x - vec3_rhs.x
+    dy = @y - vec3_rhs.y
+    dz = @z - vec3_rhs.z
+    ::Math.sqrt(dx * dx + dy * dy + dz * dz)
   end
 
   def normalize!
@@ -673,11 +679,19 @@ class Vec4
   alias magnitude length
 
   def distance_sq(vec4_rhs)
-    (@x * @x + @y * @y + @z * @z + @w * @w) - (vec4_rhs.x * vec4_rhs.x + vec4_rhs.y * vec4_rhs.y + vec4_rhs.z * vec4_rhs.z + vec4_rhs.w * vec4_rhs.w)
+    dx = @x - vec3_rhs.x
+    dy = @y - vec3_rhs.y
+    dz = @z - vec3_rhs.z
+    dw = @w - vec3_rhs.w
+    dx * dx + dy * dy + dz * dz + dw * dw
   end
 
   def distance(vec4_rhs)
-    Math.sqrt(@x * @x + @y * @y + @z * @z + @w * @w) - Math.sqrt(vec4_rhs.x * vec4_rhs.x + vec4_rhs.y * vec4_rhs.y + vec4_rhs.z * vec4_rhs.z + vec4_rhs.w * vec4_rhs.w)
+    dx = @x - vec3_rhs.x
+    dy = @y - vec3_rhs.y
+    dz = @z - vec3_rhs.z
+    dw = @w - vec3_rhs.w
+    ::Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw)
   end
 
   def normalize!
