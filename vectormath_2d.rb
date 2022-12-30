@@ -358,11 +358,15 @@ class Vec2
   end
 
   def distance_sq(vec2_rhs)
-    (@x * @x + @y * @y) - (vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
+    dx = @x - vec2_rhs.x
+    dy = @y - vec2_rhs.y
+    dx * dx + dy * dy
   end
 
   def distance(vec2_rhs)
-    Math.sqrt(@x * @x + @y * @y) - Math.sqrt(vec2_rhs.x * vec2_rhs.x + vec2_rhs.y * vec2_rhs.y)
+    dx = @x - vec2_rhs.x
+    dy = @y - vec2_rhs.y
+    ::Math.sqrt(dx * dx + dy * dy)
   end
 
   def normalize!
