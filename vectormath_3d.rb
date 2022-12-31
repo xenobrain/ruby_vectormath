@@ -679,18 +679,18 @@ class Vec4
   alias magnitude length
 
   def distance_sq(vec4_rhs)
-    dx = @x - vec3_rhs.x
-    dy = @y - vec3_rhs.y
-    dz = @z - vec3_rhs.z
-    dw = @w - vec3_rhs.w
+    dx = @x - vec4_rhs.x
+    dy = @y - vec4_rhs.y
+    dz = @z - vec4_rhs.z
+    dw = @w - vec4_rhs.w
     dx * dx + dy * dy + dz * dz + dw * dw
   end
 
   def distance(vec4_rhs)
-    dx = @x - vec3_rhs.x
-    dy = @y - vec3_rhs.y
-    dz = @z - vec3_rhs.z
-    dw = @w - vec3_rhs.w
+    dx = @x - vec4_rhs.x
+    dy = @y - vec4_rhs.y
+    dz = @z - vec4_rhs.z
+    dw = @w - vec4_rhs.w
     ::Math.sqrt(dx * dx + dy * dy + dz * dz + dw * dw)
   end
 
