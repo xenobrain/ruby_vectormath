@@ -489,7 +489,10 @@ class Mat2x2
   end
 
   def add(mat2_rhs)
-    dup.add!(mat2_rhs)
+    Mat2x2.new(
+      @xx + mat2_rhs.xx, @xy + mat2_rhs.xy,
+      @yx + mat2_rhs.yx, @yy + mat2_rhs.yy
+    )
   end
 
   alias + add
@@ -511,7 +514,10 @@ class Mat2x2
   end
 
   def sub(mat2_rhs)
-    dup.sub!(mat2_rhs)
+    Mat2x2.new(
+      @xx - mat2_rhs.xx, @xy - mat2_rhs.xy,
+      @yx - mat2_rhs.yx, @yy - mat2_rhs.yy
+    )
   end
 
   alias - sub
