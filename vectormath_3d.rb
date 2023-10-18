@@ -253,7 +253,7 @@ class Vec3
   alias negate invert
 
   def eq?(other)
-    @x == other.x && @y == other.y && @z == other.z
+    other.respond_to?(:x) && @x == other.x && other.respond_to?(:y) && @y == other.y && other.respond_to?(:z) && @z == other.z
   end
 
   def lerp!(vec3_rhs, scalar_t)
@@ -643,7 +643,7 @@ class Vec4
   alias negate invert
 
   def eq?(other)
-    @x == other.x && @y == other.y && @z == other.z && @w == other.w
+    other.respond_to?(:x) && @x == other.x && other.respond_to?(:y) && @y == other.y && other.respond_to?(:z) && @z == other.z && other.respond_to?(:w) && @w == other.w
   end
 
   def lerp!(vec4_rhs, scalar_t)
