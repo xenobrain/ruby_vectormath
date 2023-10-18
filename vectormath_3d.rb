@@ -816,7 +816,17 @@ class Mat3x3
   end
 
   def add(mat3_rhs)
-    dup.add!(mat3_rhs)
+    Mat3x3.new(
+      @xx + mat3_rhs.xx,
+      @xy + mat3_rhs.xy,
+      @xz + mat3_rhs.xz,
+      @yx + mat3_rhs.yx,
+      @yy + mat3_rhs.yy,
+      @yz + mat3_rhs.yz,
+      @zx + mat3_rhs.zx,
+      @zy + mat3_rhs.zy,
+      @zz + mat3_rhs.zz
+    )
   end
 
   alias + add
@@ -848,7 +858,17 @@ class Mat3x3
   end
 
   def sub(mat3_rhs)
-    dup.sub!(mat3_rhs)
+    Mat3x3.new(
+      @xx - mat3_rhs.xx,
+      @xy - mat3_rhs.xy,
+      @xz - mat3_rhs.xz,
+      @yx - mat3_rhs.yx,
+      @yy - mat3_rhs.yy,
+      @yz - mat3_rhs.yz,
+      @zx - mat3_rhs.zx,
+      @zy - mat3_rhs.zy,
+      @zz - mat3_rhs.zz
+    )
   end
 
   alias - sub
@@ -1114,7 +1134,24 @@ class Mat4x4
   end
 
   def add(mat4_rhs)
-    dup.add!(mat4_rhs)
+    Mat4x4.new(
+      @xx + mat4_rhs.xx,
+      @xy + mat4_rhs.xy,
+      @xz + mat4_rhs.xz,
+      @xw + mat4_rhs.xw,
+      @yx + mat4_rhs.yx,
+      @yy + mat4_rhs.yy,
+      @yz + mat4_rhs.yz,
+      @yw + mat4_rhs.yw,
+      @zx + mat4_rhs.zx,
+      @zy + mat4_rhs.zy,
+      @zz + mat4_rhs.zz,
+      @zw + mat4_rhs.zw,
+      @wx + mat4_rhs.wx,
+      @wy + mat4_rhs.wy,
+      @wz + mat4_rhs.wz,
+      @ww + mat4_rhs.ww
+    )
   end
 
   alias + add
@@ -1160,7 +1197,24 @@ class Mat4x4
   end
 
   def sub(mat4_rhs)
-    dup.sub!(mat4_rhs)
+    Mat4x4.new(
+      @xx - mat4_rhs.xx,
+      @xy - mat4_rhs.xy,
+      @xz - mat4_rhs.xz,
+      @xw - mat4_rhs.xw,
+      @yx - mat4_rhs.yx,
+      @yy - mat4_rhs.yy,
+      @yz - mat4_rhs.yz,
+      @yw - mat4_rhs.yw,
+      @zx - mat4_rhs.zx,
+      @zy - mat4_rhs.zy,
+      @zz - mat4_rhs.zz,
+      @zw - mat4_rhs.zw,
+      @wx - mat4_rhs.wx,
+      @wy - mat4_rhs.wy,
+      @wz - mat4_rhs.wz,
+      @ww - mat4_rhs.ww
+    )
   end
 
   def mul!(mat4_rhs)
