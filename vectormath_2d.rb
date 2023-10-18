@@ -242,7 +242,7 @@ class Vec2
   end
 
   def eq?(other)
-    @x == other.x && @y == other.y
+    other.respond_to?(:x) && @x == other.x && other.respond_to?(:y) && @y == other.y
   end
 
   def neq?(other)
